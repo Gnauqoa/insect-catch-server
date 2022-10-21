@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "insect-catch-electric",
+  "private_key_id": "629e14b0a58c0f8b4906ffd7f863d72e22f78d9c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCT4iGxqX3i2Orl\ncQkZcqdyyLxJ+cma6w8cIGZGEYPCZzhd5kIPdA+Xjm3biiyHTjkhby9fTAGxoU++\nTsJa+t5o6XACp/pEhRdXwJQ2sUSlE6cK5VLa2DElgjrgXXRL6UZkwtZpyfXvKge9\n0on/OJ3CqvPXF9kaOsVvugLuxgh7Q9wMqzfdFlKF2X9CmoNng+w4P166jsaY8Hh3\nTss40V40gotDRzUsUzU4KVHt0Iu6dTXtNFRSW7zbMQggd6H/OVdNB5p130adqbC3\nBMn9W9N/erOODX2O7Lyrd+YnpLXSrWcsDrxCZLcUpxK5I42k4wNJ4R/s8ou20zPd\nEyl3cIRfAgMBAAECggEAOVjzdQiD02EIMmKzwyUVr2sNrWhK2KM38FHWJ2zqWgya\nLLu6uXBqDX1Dt+Os4emhOQh7Z+q7K22hVW0IbKylbCy+baFDaaftBfAd6dmzg4qL\n+Cs3BrvYzzFh8Jj9HOUBEdkGue6CSzVS3DdVoV4Mu618sthCLixFXU7WjU7JgjcX\nKPuYKfy9GkSAQpE3yzaWiDV+ah57iEx5Cx5yKO9xYSPEEEoUxBjjeRN/XDSKj4kS\n0lhLyaBbhxCloQHQvmUZqkWx8WVakZx5ZP7L+TWcAgaZofdut+00pvkHeKW3owoC\nweLWMLK/6DQ+lCDzY18ZBU8YkTPzfnltma/3pVUXJQKBgQDDoa9MpV3momgffrCo\nCUCfkUJnRHdw0gON2EVBoVtIauLA6tSXyykZBAthJ5Q4z85LC7k7H1Cst5fOMpDr\n6FNiFbJaAXcpQaI86OcirKlraLAWOFLczgFn80z/lAjMrAGTv7ANlUA2Al6/dDnO\nNm/oJjI4KEaIji3CGVqpUJhnwwKBgQDBhHnqU0vS2XWhMEyRjdVyKok96mpCafeB\nOgPt1Y4gTET3GrGcVc+Ie8ldAa/6slPaHsI6Pp7jPU7e3OYIq7VHkGo3bvWR7fTB\nwA/k6VeXY/MQ7ULp49P1902iBzMg7sUH0ar9T49h8PmC59foiTvd6BhkFL85fkR4\nkVMpt6lDNQKBgCNqKaneZdlSnTbWYHSK+D/qs/Kt2lF6M1qCREdVRokdkF8MI+A2\nzwHQUZ8M4zBFrjq3rJifWqNpuPmC/ek27aFb/CV/DmtRjmUoZG9KgoEHOplLKPT/\n9hEzYkUCL3WdzctJcD2FP1KHq09NYwmJoUiNYZn48IvX8UCqBleQV4axAoGBAJWk\nUXonyzxSuCla5fqwCNvtlI7yVBTjSGb/a8ZgGzVShQnn9GwF1yOdRUrMYT6k4z6K\nBntvrQHfiLvBaYhO7zFVtS0EepTLwzaHxEKpRfhla7ItJk8iw+cxwzCGDL1spaO0\nOFsFSMTdyLO3gDfq1wZz0ViiynQ09dGd3wclZJf5AoGAOp5P2n7jW7ttcQGQZAIZ\nkWWUDHeUaY95qXGX/DczdUDq/JduhyJFBFPNY0AqA+7DmResiJfqZAtSUFQKll8L\nXxOSasIkv5skI2ZhWQ4Hs3JKVaZu8tt5RMns9JSkSVryw95qjcJ2yZuE4EBJlnmB\n5eCGfI5MG/MjH/kdcJNPaXI=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ado4b@insect-catch-electric.iam.gserviceaccount.com",
+  "client_id": "105598614696686092313",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ado4b%40insect-catch-electric.iam.gserviceaccount.com"
+}
