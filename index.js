@@ -9,8 +9,6 @@ const { getFirestore } = require("firebase-admin/firestore");
 // port
 dotenv.config();
 const port = process.env.PORT || 3000;
-const serviceAccount = require("./firebase_key.json");
-
 admin.initializeApp({
   credential: admin.credential.cert({
     projectId: "insect-catch-electric",
