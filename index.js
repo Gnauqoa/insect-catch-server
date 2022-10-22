@@ -92,21 +92,20 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
     const deviceID = req.body.deviceID;
     const ledColor = req.body.ledColor;
     const brightness = req.body.brightness;
-
     console.log(deviceID, ":", ledColor, brightness);
-    // clientMQTT.publish(
-    //   "/save",
-    //   JSON.stringify({
-    //     data: "this test",
-    //     name: "quang",
-    //   }),
-    //   { qos: 0, retain: false },
-    //   (error) => {
-    //     if (error) {
-    //       console.error(error);
-    //     }
-    //   }
-    // );
+    clientMQTT.publish(
+      `/${deviceID}`,
+      JSON.stringify({
+        ledColor: ledColor,
+        brightness: brightness,
+      }),
+      { qos: 0, retain: false },
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      }
+    );
     res.send("updated!");
   } catch (error) {
     return error;
