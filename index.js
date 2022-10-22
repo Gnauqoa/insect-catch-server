@@ -93,6 +93,12 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
     const ledColor = req.body.ledColor;
     const brightness = req.body.brightness;
     console.log(deviceID, ":", ledColor, brightness);
+    const deviceRef = db.collection("device").doc(deviceID);
+    const updateReq = await deviceRef.update({
+      ledColor: ledColor,
+      brightness: brightness,
+    });
+
     clientMQTT.publish(
       `/${deviceID}`,
       JSON.stringify({
@@ -106,7 +112,8 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
         }
       }
     );
-    res.send("updated!");
+    console.log(updateReq);
+    res.send(updateReq);
   } catch (error) {
     return error;
   }
