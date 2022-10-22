@@ -21,7 +21,7 @@ admin.initializeApp({
     clientEmail:
       "firebase-adminsdk-ado4b@insect-catch-electric.iam.gserviceaccount.com",
     privateKey:
-      "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDJf4hvNsJBgO+L\nTDqe9hK4lut+8UE78f1XREau6Ewl+yql1SgMUOup+5UOuuGILxhuurwphB+jj+Hd\n+SyTGDVOrCpu6Qauhxa+zgXpfjAi++jbdqvsZ8UbvH+zFwW6Ml2Zvt6BhXPaVgy7\nBzPPWzqh0CPIRuIKDM49SOQO/Abi7hIZd0eC4TldjORHPTgaG4/3wgg2Vzy8DpSt\nGTusOoA7DnK26V7RXyful5HSgeEGrw/9nN//b+ADr6jM6xw9tSvjcYBrWKL7Twxu\nliEWn8MswNu/ay+rmRv7hGUUGdLJJugvkx/6nRiIDAcuIyLU3eenzKzGKch4xfwH\nvC9pVKLXAgMBAAECggEAC7HvELCd8vO+QFiEgoHUl/AluDCqhGv8NBqoLsvlN4/t\n0fUFDD0m7UiT4AH9+xiFeeloTtFc8/JZV4SrdXIo2rZPB2O92b1isMczPD69u01I\nHtmZcVdoiL6WrtjxCFvKAPvW3RYKbl68m58qy6gHR1yis9buLn6/YOE5+c149nMx\nvLtSIGsbpJc/Z8z5YyzBOCoT8aDAgpRiZNPlzsGvm3Chsv5ErcuDcpKo3JqRV7ST\nBaJf2Dmm5Z7dXgQytgK5LbtdT3W/rtWgkfvgoPRz9ZUNgnYNnjX+3EmoyChUjjEZ\nSX59Qy7yV2ShjxtMb5uE/EfrtKie1n2/NAyGdZnaOQKBgQDwm/eakuHjGaaUzoRn\nCuV/DupRmpaAYnMR+oP3+X+cPG4PdG5XhrJecVKIGfQdO5drCxNUu4xo7eOglw1f\nElugK5pQ6/jie86ZNKyC9T7GMV0KfKy6YeDRVvzqTvkkB07Td8n44ojvKmzzqiT8\n6bt3v2ZyXqwRxJzHWSphi+FsWwKBgQDWYxzfof46ptOBupIbGBXbKxZZk+K6G1WI\nWZ5HyVLOHQDttbqtUb35EL8DHwLRi3VAaZRqIEsPb8EW+Ie/F/OIDaBb9HzKHBqi\n+3sYToFn/Qf/whSH7RJ/R6+c/40LFgwuHipyNe7T9vLbG6UuDgbDbbBT2+L37KsC\nhBSXAZHcNQKBgGzwoT4qbP4vOf48NzSUeW566VsDXEtKyAEG5UOcgsvRjJ+QvvkA\nMriSJKUc4yttNNSxkhIWTK+hriOi4Nn/7N5rf5ZOEUUye0tgzw8ITWDdLtw1sNs+\nv9ToxuCr2yAV8vnKTfdTUl6/Xc9BZTfh+BBy58a22L++vqF/3LGH7QvrAoGANbhk\nNc17zOqcuTctAUkJwP+M/ClIeOX8iswaE1bpPuiZoPcWrfN7rPt7Qab1p9hQKzHJ\nlMY+yMFyGvVv3nx7862mbyRWWLauHgTyFWcmmg4XgQj66AyJxAcMhESs7Qg7SRsZ\n+8Bz9f09YZYNz/qHy1SjCIBi4UkWmOzL1AL6r7kCgYBe1r33+kQuv3t+97sXnLjn\nJMsFRPQQ3RZpgbcX4ZdNvAGhxY9rc/z0EM6ETerEAXSXax1UDLRTEmLO58rTXWPl\niv1adYYdrANwpcKVIkmCk4PxE62tbciofqDgJoQyRFsMWLTrf201BgdL5yVjtqJI\nF1x2ukkIZvZXYpfLKa//WQ==\n-----END PRIVATE KEY-----\n",
+      "-----BEGIN PRIVATE KEY-----\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQCptJQTzA2MCw1x\njIPplUZ78HTdMQGsdnTiB4W4xkSDHrlX4iNziiSxUUXdW4Qh85fD7B2eDsWaMPns\nLGXywbzSCL1kRd4lbIGKMbUzjwAsGRNPa87aVp24K/sNc4FDkifAG//wXo1iU+oF\nwlLjF3OI1SthRN27/xv6vnk+OgUSVHriCktNpA+kaSuyTkk+liJSdcIYvH6Mi3iZ\n+ZWAaREW9TAAtk5uOKCmVjdrzGb65O53Ye6W41OQqHd7ln6KGRHdutyd6Oltt6T9\noMcKuOmSirfKSU6RWy2m/JZIsqvpVVTOWUm9ss7kdsW2Ytv0er4bWkUMcWTli9+x\nODEhcLPpAgMBAAECgf8fp073Ylgkhus7ArqYFv/Onkst9rYZNP8YKc8HZ/PfgRuR\nCN0T7/BoIoCliSxcKNNl9+SOVrMEz53OL3nUjc5qXrb0vRNyZ4rB/AOQWlvt3b98\nUN+EWiOQ9qMdHy49LEW9z3stmnVEoeJEsLpFIVqraxdsTSwOpMbTPjPfJ3NKt6ly\nH39RUUrzH2eWlqDL2NEX2RLLqHviAxm+jBTrWS2205JXC48Kgc4k25aI9w65jMSW\n1Wuo9rkp5oQspNfLL47V7JWYe5ykGk97abJkyrG7Vylf82NPo+MeVXd5mH9RPYnE\n5ds0bwRHVUsXteajQ7JgF8V8fndL9/mJTQemyCECgYEA0d0IElY1VUVPfoCzF5Ik\nsxKQ7OPpkzzilreonYW6OS74rnBJgadQRAjgb1RWZOY9cSVIKVhlkO9L6GKSwpRc\nPaTOYCMAu2ypXnHL10V559HdpR6u/HNhy27paIr8sOQXq1XBhzBDTEwbHYr3jQV9\nMy2TVRS1MzFygtjENRLhn1ECgYEAzwN7J9xHRFTUwtkuzxvSq+KHdUZYyux/a+bi\np71nSChLZIZqqXd58JSLUrgDldZsjf/L+uP4Wr4vXRrWEhMSEGvzneHAMrOBzXaH\nlFNhYiD+EC0CzAWyn9O05mOTR+J1Y7lFVBidO8K2aZKaQQDeQySEeZh9dIAtWiNf\nhl1OlRkCgYA+gDNtMpuDn7bDGBU+SdoAMuFSi7X+kb1x4ZSoBTGm4iRR30MlB+1R\ntcsRnO518lQOJGpPVfI5rerPdLv8ky69dR25Z/NJ3ly6se1hWWGq9sep62914+8W\nJRwCdJI5JFUgQ9P1LRx91pSkwcRkDWRyH3qndhlY+7r82Q3mOI9VYQKBgFs2IXFy\nsUP+TLB9mQ5QKAbsDNszX7QpeAtG898MqRE2D+H/B8gbiHLkQG71/T5r9/CpIGsv\nPyJcYeoYBPJ5zJ/HsNODwHeWeD7bVumXw3TFLKxb6LuUVxvs3+wTO7WUpjyGSXHA\nVqcaJ91kZur1Qvk6gdRByCUoxNLOeyxsuE8hAoGAKvTrON7bvWIB77/YpYLFzRvD\nEtsyE7sOkXIuseSsBRAxzNqPDVnbRvs57ARsODUBYbbgpOJql51UZqELd/yOSw20\ni9LpMFWv+TkMVuTClRgkpd9RTUmIzT66FdesUBo5VWWSJGiqXOdGySdfTpQjdhk+\nbAXzu/mBRKq7t4kRuh0=\n-----END PRIVATE KEY-----\n",
   }),
   databaseURL:
     "https://insect-catch-electric-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -87,27 +87,23 @@ app.post("/checkConnect", async (req, res) => {
     return error;
   }
 });
-app.post("/userUpdateDevice", jsonParser, async (req, res) => {
+app.post("userUpdateDevice",jsonParser, async (req, res) => {
   try {
-    const deviceID = req.body.deviceID;
-    const ledColor = req.body.ledColor;
-    const brightness = req.body.brightness;
-
-    console.log(deviceID, ":", ledColor, brightness);
-    // clientMQTT.publish(
-    //   "/save",
-    //   JSON.stringify({
-    //     data: "this test",
-    //     name: "quang",
-    //   }),
-    //   { qos: 0, retain: false },
-    //   (error) => {
-    //     if (error) {
-    //       console.error(error);
-    //     }
-    //   }
-    // );
-    res.send("updated!");
+    console.log("update device data")
+    clientMQTT.publish(
+      "/save",
+      JSON.stringify({
+        data: "this test",
+        name: "quang",
+      }),
+      { qos: 0, retain: false },
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      }
+    );
+    res.send("updated!")
   } catch (error) {
     return error;
   }
