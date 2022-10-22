@@ -56,6 +56,14 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
 app.post("/updateDeviceImg", async (req, res) => {
   try {
     {
+      const idDevice = req.body.id;
+      const imgUpdate = req.body.data.img;
+      console.log(idDevice , {imgUrl: imgUpdate});
+      const deviceRef = db.collection('device').doc(idDevice)
+      const updateReq = await deviceRef.update({imgUrl: imgUpdate})
+      console.log(updateReq);
+      res.send(updateReq)
+
     }
   } catch (error) {
     console.log(error);
