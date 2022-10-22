@@ -38,25 +38,16 @@ var jsonParser = bodyParser.json();
 app.use(cors());
 app.use(jsonParser);
 
-app.get("/test", async (req, res) => {
-  try {
-    const snapshot = await db.collection("users").get();
-    const data = [];
-    snapshot.forEach((doc) => {
-      data.push(doc.data());
-    });
-    res.send(data);
-  } catch (error) {
-    console.log(error);
-    res.send(error);
-  }
-});
 app.post("/updateDeviceData", jsonParser, async (req, res) => {
   try {
     {
-      const data = req.body;
-      console.log(data);
-      res.send(data);
+      const idDevice = req.body.id;
+      const dataUpdate = req.body.data;
+      console.log(idDevice , dataUpdate);
+      const deviceRef = db.collection('device').doc(idDevice)
+      const updateReq = await deviceRef.update({...dataUpdate})
+      console.log(updateReq);
+      res.send(updateReq)
     }
   } catch (error) {
     console.log(error);
@@ -70,15 +61,6 @@ app.post("/updateDeviceImg", async (req, res) => {
     console.log(error);
   }
 });
-app.post("/test", async (req, res) => {
-  admin.catch((error) => {
-    res.json({
-      error: false,
-      message: error,
-    });
-  });
-});
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
