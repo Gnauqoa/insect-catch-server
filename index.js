@@ -95,8 +95,50 @@ app.post("/updateDeviceImg", jsonParser, async (req, res) => {
     console.log(error);
   }
 });
-
-app.post("/userUpdateDevice", jsonParser, async (req, res) => {
+app.get("/getNewImg", async (req, res) => {
+  try {
+    const deviceID = req.query.deviceID;
+    clientMQTT.publish(
+      `/${deviceID}`,
+      JSON.stringify({
+        command: "sendNewImg",
+        data: {},
+      }),
+      { qos: 0, retain: false },
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
+app.get("/getNewDeviceData", async (req, res) => {
+  try {
+    const deviceID = req.query.deviceID;
+    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
+    realTimeRef.update({ status: false });
+    clientMQTT.publish(
+      `/${deviceID}`,
+      JSON.stringify({
+        command: "sendNewDeviceData",
+        data: {},
+      }),
+      { qos: 0, retain: false },
+      (error) => {
+        if (error) {
+          console.error(error);
+        }
+      }
+    );
+    res.send("send to device");
+  } catch (error) {
+    console.log(error);
+  }
+});
+app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
   try {
     const deviceID = req.body.deviceID;
     const ledColor = req.body.ledColor;
@@ -126,49 +168,6 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
       }
     );
     res.send(realTimeRef);
-  } catch (error) {
-    console.log(error);
-  }
-});
-app.get("/getNewImg", async (req, res) => {
-  try {
-    const deviceID = req.query.deviceID;
-    clientMQTT.publish(
-      `/${deviceID}`,
-      JSON.stringify({
-        command: "sendNewImg",
-        data: {},
-      }),
-      { qos: 0, retain: false },
-      (error) => {
-        if (error) {
-          console.error(error);
-        }
-      }
-    );
-  } catch (error) {
-    console.log(error);
-  }
-});
-app.get("/getDeviceData", async (req, res) => {
-  try {
-    const deviceID = req.query.deviceID;
-    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
-    realTimeRef.update({ status: false });
-    clientMQTT.publish(
-      `/${deviceID}`,
-      JSON.stringify({
-        command: "sendNewDeviceData",
-        data: {},
-      }),
-      { qos: 0, retain: false },
-      (error) => {
-        if (error) {
-          console.error(error);
-        }
-      }
-    );
-    res.send("send to device");
   } catch (error) {
     console.log(error);
   }
