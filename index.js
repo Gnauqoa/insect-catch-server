@@ -87,7 +87,7 @@ app.post("/updateDeviceImg", jsonParser, async (req, res) => {
       const imgUpdate = req.body.data.img;
 
       const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
-      realTimeRef.update({ imgUrl: imgUpdate });
+      realTimeRef.update({ imgUrl: imgUpdate, status: true });
 
       res.send(realTimeRef);
     }
@@ -98,6 +98,8 @@ app.post("/updateDeviceImg", jsonParser, async (req, res) => {
 app.get("/getNewImg", async (req, res) => {
   try {
     const deviceID = req.query.deviceID;
+    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
+    realTimeRef.update({ status: false });
     clientMQTT.publish(
       `/${deviceID}`,
       JSON.stringify({
