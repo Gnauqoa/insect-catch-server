@@ -69,7 +69,11 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
       });
 
       const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
-      realTimeRef.update({ timeUpdate: getTime() });
+      realTimeRef.update({
+        timeUpdate: getTime(),
+        ...dataUpdate,
+        status: true,
+      });
       res.send({ alert: "updated!" });
     }
   } catch (error) {
@@ -149,6 +153,8 @@ app.get("/getNewImg", async (req, res) => {
 app.get("/getDeviceData", async (req, res) => {
   try {
     const deviceID = req.query.deviceID;
+    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
+    realTimeRef.update({ status: false });
     clientMQTT.publish(
       `/${deviceID}`,
       JSON.stringify({
@@ -162,6 +168,7 @@ app.get("/getDeviceData", async (req, res) => {
         }
       }
     );
+    res.send("send to device");
   } catch (error) {
     console.log(error);
   }
