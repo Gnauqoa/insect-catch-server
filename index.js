@@ -63,12 +63,13 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
         oldData: FieldValue.arrayUnion({
           temp: dataUpdate.temp,
           humi: dataUpdate.humi,
+          optic: dataUpdate.optic,
           time: new Date(),
         }),
       });
 
       const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
-      realTimeRef.set({ ...dataUpdate });
+      realTimeRef.update({ timeUpdate: String(new Date()), ...dataUpdate });
       res.send({ alert: "updated!" });
     }
   } catch (error) {
@@ -80,30 +81,26 @@ app.post("/updateDeviceImg", jsonParser, async (req, res) => {
     {
       const idDevice = req.body.id;
       const imgUpdate = req.body.data.img;
-      console.log(idDevice, { imgUrl: imgUpdate });
-      const deviceRef = fireStoreDB.collection("device").doc(idDevice);
-      const updateReq = await deviceRef.update({ imgUrl: imgUpdate });
-      console.log(updateReq);
-      res.send(updateReq);
+
+      const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
+      realTimeRef.update({ imgUrl: imgUpdate });
+
+      res.send(realTimeRef);
     }
   } catch (error) {
     console.log(error);
   }
 });
-app.post("/checkConnect", async (req, res) => {
-  try {
-  } catch (error) {
-    return error;
-  }
-});
+
 app.post("/userUpdateDevice", jsonParser, async (req, res) => {
   try {
     const deviceID = req.body.deviceID;
     const ledColor = req.body.ledColor;
     const brightness = req.body.brightness;
     console.log(deviceID, ":", ledColor, brightness);
-    const deviceRef = fireStoreDB.collection("device").doc(deviceID);
-    const updateReq = await deviceRef.update({
+
+    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
+    realTimeRef.update({
       ledColor: ledColor,
       brightness: brightness,
     });
@@ -124,8 +121,7 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
         }
       }
     );
-    console.log(updateReq);
-    res.send(updateReq);
+    res.send(realTimeRef);
   } catch (error) {
     console.log(error);
   }
