@@ -69,7 +69,7 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
       });
 
       const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
-      realTimeRef.update({ timeUpdate: String(new Date()), ...dataUpdate });
+      realTimeRef.update({ timeUpdate: getTime() });
       res.send({ alert: "updated!" });
     }
   } catch (error) {
@@ -169,3 +169,30 @@ app.get("/getDeviceData", async (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
+
+const getTime = () => {
+  let a = new Date().toString().split(/\s/);
+  return (
+    a[2] +
+    "/" +
+    {
+      Jan: "01",
+      Feb: "02",
+      Mar: "03",
+      Apr: "04",
+      May: "05",
+      Jun: "06",
+      Jul: "07",
+      Aug: "08",
+      Sep: "09",
+      Oct: "10",
+      Nov: "11",
+      Dec: "12",
+    }[a[1]] +
+    "/" +
+    a[3] +
+    " " +
+    a[4]
+  );
+  return a;
+};
