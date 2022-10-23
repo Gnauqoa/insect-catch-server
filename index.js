@@ -10,7 +10,8 @@ const portMQTT = "1883";
 
 // firebase
 const admin = require("firebase-admin");
-const { getFirestore } = require("firebase-admin/firestore");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const { getDatabase } = require("firebase-admin/database");
 // port
 dotenv.config();
 const port = process.env.PORT || 3000;
@@ -41,8 +42,8 @@ const clientMQTT = mqtt.connect(mqttUrl, {
   connectTimeout: 4000,
   reconnectPeriod: 1000,
 });
-const db = getFirestore();
-
+const fireStoreDB = getFirestore();
+const realTimeDb = getDatabase();
 var jsonParser = bodyParser.json();
 
 app.use(cors());
@@ -57,10 +58,18 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
       const idDevice = req.body.id;
       const dataUpdate = req.body.data;
       console.log(idDevice, dataUpdate);
-      const deviceRef = db.collection("device").doc(idDevice);
-      const updateReq = await deviceRef.update({ ...dataUpdate });
-      console.log(updateReq);
-      res.send(updateReq);
+      const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
+      const updateReq = await fireStoteRef.update({
+        oldData: FieldValue.arrayUnion({
+          temp: dataUpdate.temp,
+          humi: dataUpdate.humi,
+          time: new Date(),
+        }),
+      });
+
+      const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
+      realTimeRef.set({ ...dataUpdate });
+      res.send({ alert: "updated!" });
     }
   } catch (error) {
     console.log(error);
@@ -72,7 +81,7 @@ app.post("/updateDeviceImg", jsonParser, async (req, res) => {
       const idDevice = req.body.id;
       const imgUpdate = req.body.data.img;
       console.log(idDevice, { imgUrl: imgUpdate });
-      const deviceRef = db.collection("device").doc(idDevice);
+      const deviceRef = fireStoreDB.collection("device").doc(idDevice);
       const updateReq = await deviceRef.update({ imgUrl: imgUpdate });
       console.log(updateReq);
       res.send(updateReq);
@@ -93,7 +102,7 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
     const ledColor = req.body.ledColor;
     const brightness = req.body.brightness;
     console.log(deviceID, ":", ledColor, brightness);
-    const deviceRef = db.collection("device").doc(deviceID);
+    const deviceRef = fireStoreDB.collection("device").doc(deviceID);
     const updateReq = await deviceRef.update({
       ledColor: ledColor,
       brightness: brightness,
@@ -121,9 +130,9 @@ app.post("/userUpdateDevice", jsonParser, async (req, res) => {
     console.log(error);
   }
 });
-app.post("/getNewImg", async (req, res) => {
+app.get("/getNewImg", async (req, res) => {
   try {
-    const deviceID = req.body.deviceID;
+    const deviceID = req.query.deviceID;
     clientMQTT.publish(
       `/${deviceID}`,
       JSON.stringify({
