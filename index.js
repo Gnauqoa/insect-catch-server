@@ -150,13 +150,15 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
     const timeStart = req.body.timeStart;
     const timeEnd = req.body.timeEnd;
 
-    console.log(deviceID, ":", {
-      ...ledColor,
-      ...brightness,
-      ...timeSend,
-      ...timeStart,
-      ...timeEnd,
-    });
+    console.log(
+      deviceID,
+      ":",
+      ledColor,
+      brightness,
+      timeSend,
+      timeStart,
+      timeEnd
+    );
 
     const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
     realTimeRef.update({
