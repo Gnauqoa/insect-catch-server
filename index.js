@@ -151,26 +151,15 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
     const timeEnd = req.body.timeEnd;
 
     console.log(deviceID, ":");
-    console.log({
+
+    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
+    realTimeRef.update({
       ledColor: ledColor,
       brightness: brightness,
       timeSend: timeSend,
       timeStart: timeStart,
       timeEnd: timeEnd,
     });
-
-    const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
-    realTimeRef.update({
-      ledColor: ledColor,
-      brightness: brightness,
-    });
-    realTimeDb.ref(`device/${deviceID}/timeSend`).update(timeSend);
-    realTimeDb
-      .ref(`device/${deviceID}/timeStart`)
-      .update({ hour: timeStart.hour, min: timeStart.min });
-    realTimeDb
-      .ref(`device/${deviceID}/timeEnd`)
-      .update({ hour: timeEnd.hour, min: timeEnd.min });
 
     clientMQTT.publish(
       `/${deviceID}`,
