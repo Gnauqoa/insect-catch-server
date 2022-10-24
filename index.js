@@ -163,10 +163,10 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
     realTimeRef.update({
       ledColor: ledColor,
       brightness: brightness,
-      timeSend: timeSend,
-      timeStart: timeStart,
-      timeEnd: timeEnd,
     });
+    realTimeDb.ref(`device/${deviceID}/timeSend`).update(timeSend);
+    realTimeDb.ref(`device/${deviceID}/timeStart`).update({...timeStart});
+    realTimeDb.ref(`device/${deviceID}/timeEnd`).update({...timeEnd});
 
     clientMQTT.publish(
       `/${deviceID}`,
