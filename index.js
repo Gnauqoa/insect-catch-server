@@ -102,7 +102,7 @@ app.get("/getNewImg", async (req, res) => {
     realTimeRef.update({ status: false });
     clientMQTT.publish(
       `/${deviceID}`,
-      
+
       JSON.stringify({
         command: "sendNewImg",
         data: {},
@@ -150,7 +150,15 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
     const timeStart = req.body.timeStart;
     const timeEnd = req.body.timeEnd;
 
-    console.log(deviceID, ":", ledColor, brightness);
+    console.log(
+      deviceID,
+      ":",
+      ledColor,
+      brightness,
+      timeSend,
+      timeStart,
+      timeEnd
+    );
 
     const realTimeRef = realTimeDb.ref(`device/${deviceID}`);
     realTimeRef.update({
@@ -158,7 +166,7 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
       brightness: brightness,
       timeSend: timeSend,
       timeStart: timeStart,
-      timeEnd: timeEnd
+      timeEnd: timeEnd,
     });
 
     clientMQTT.publish(
@@ -168,6 +176,9 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
         data: {
           ledColor: ledColor,
           brightness: brightness,
+          timeSend: timeSend,
+          timeStart: timeStart,
+          timeEnd: timeEnd,
         },
       }),
       { qos: 0, retain: false },
