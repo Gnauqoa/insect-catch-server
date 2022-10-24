@@ -165,7 +165,10 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
       ledColor: ledColor,
       brightness: brightness,
       timeSend: timeSend,
-      timeStart: timeStart,
+      timeStart: {
+        hour: timeStart.hour,
+        min: timeSend.min
+      },
       timeEnd: timeEnd,
     });
 
