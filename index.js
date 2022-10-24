@@ -160,6 +160,7 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
       timeStart: timeStart,
       timeEnd: timeEnd,
     });
+    realTimeRef.set({ timeSend: timeSend });
 
     clientMQTT.publish(
       `/${deviceID}`,
