@@ -7,7 +7,7 @@ const cors = require("cors");
 const mqtt = require("mqtt");
 const hostMQTT = "test.mosquitto.org";
 const portMQTT = "1883";
-
+const axios = require("axios");
 // firebase
 const admin = require("firebase-admin");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
@@ -57,13 +57,20 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
     {
       const idDevice = req.body.id;
       const dataUpdate = req.body.data;
-      console.log(idDevice, dataUpdate);
+      const coordinates = dataUpdate.coordinates;
+      const reverseGeocode = await axios({
+        url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.longitude}&lon=${coordinates.latitude}`,
+        method: "get",
+      });
+      const location = reverseGeocode.data.display_name
       const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
       const updateReq = await fireStoteRef.update({
         oldData: FieldValue.arrayUnion({
           temp: dataUpdate.temp,
           humi: dataUpdate.humi,
           optic: dataUpdate.optic,
+          location: location,
+          coordinates: coordinates,
           time: new Date(),
         }),
       });
@@ -71,6 +78,7 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
       const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
       realTimeRef.update({
         timeUpdate: getTime(),
+        location: location,
         ...dataUpdate,
         status: true,
       });
