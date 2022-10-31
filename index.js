@@ -52,6 +52,49 @@ app.use(jsonParser);
 clientMQTT.on("connect", () => {
   console.log("connect MQTT");
 });
+clientMQTT.subscribe("/postDataDevice", () => {
+  console.log("subscribe to topic /postDataDevice");
+});
+clientMQTT.on("message", (topic, payload) => {
+  if (topic === "/postDataDevice") {
+    const dataDevice = JSON.parse(payload);
+    updateFriebaseDataDevice(dataDevice);
+  }
+}); 
+const updateFriebaseDataDevice = async (json) => {
+  try {
+    const idDevice = json.id;
+    const dataUpdate = json.data;
+    console.log(idDevice, dataUpdate);
+    const coordinates = dataUpdate.coordinates;
+    const reverseGeocode = await axios({
+      url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.longitude}&lon=${coordinates.latitude}`,
+      method: "get",
+    });
+    const location = reverseGeocode.data.display_name;
+    const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
+    const updateReq = await fireStoteRef.update({
+      oldData: FieldValue.arrayUnion({
+        temp: dataUpdate.temp,
+        humi: dataUpdate.humi,
+        optic: dataUpdate.optic,
+        location: location,
+        coordinates: coordinates,
+        time: new Date(),
+      }),
+    });
+
+    const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
+    realTimeRef.update({
+      timeUpdate: getTime(),
+      location: location,
+      ...dataUpdate,
+      status: true,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 app.post("/updateDeviceData", jsonParser, async (req, res) => {
   try {
     {
@@ -62,7 +105,7 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
         url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.longitude}&lon=${coordinates.latitude}`,
         method: "get",
       });
-      const location = reverseGeocode.data.display_name
+      const location = reverseGeocode.data.display_name;
       const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
       const updateReq = await fireStoteRef.update({
         oldData: FieldValue.arrayUnion({
@@ -201,6 +244,7 @@ app.post("/userUpdateDeviceData", jsonParser, async (req, res) => {
     console.log(error);
   }
 });
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
