@@ -60,53 +60,28 @@ clientMQTT.on("message", (topic, payload) => {
     const dataDevice = JSON.parse(payload);
     updateFriebaseDataDevice(dataDevice);
   }
-}); 
+});
 const updateFriebaseDataDevice = async (json) => {
   try {
     const idDevice = json.id;
     const dataUpdate = json.data;
     console.log(idDevice, dataUpdate);
-    const coordinates = dataUpdate.coordinates;
-    const reverseGeocode = await axios({
-      url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.longitude}&lon=${coordinates.latitude}`,
-      method: "get",
-    });
-    const location = reverseGeocode.data.display_name;
-    const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
-    const updateReq = await fireStoteRef.update({
-      oldData: FieldValue.arrayUnion({
-        temp: dataUpdate.temp,
-        humi: dataUpdate.humi,
-        optic: dataUpdate.optic,
-        location: location,
-        coordinates: coordinates,
-        time: new Date(),
-      }),
-    });
 
+    const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
     const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
-    realTimeRef.update({
-      timeUpdate: getTime(),
-      location: location,
-      ...dataUpdate,
-      status: true,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
-app.post("/updateDeviceData", jsonParser, async (req, res) => {
-  try {
-    {
-      const idDevice = req.body.id;
-      const dataUpdate = req.body.data;
+    if (
+      dataUpdate.hasOwnProperty("temp") &&
+      dataUpdate.hasOwnProperty("humi") &&
+      dataUpdate.hasOwnProperty("optic") &&
+      dataUpdate.hasOwnProperty("coordinates")
+    ) {
+      console.log("firestore");
       const coordinates = dataUpdate.coordinates;
       const reverseGeocode = await axios({
         url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.longitude}&lon=${coordinates.latitude}`,
         method: "get",
       });
       const location = reverseGeocode.data.display_name;
-      const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
       const updateReq = await fireStoteRef.update({
         oldData: FieldValue.arrayUnion({
           temp: dataUpdate.temp,
@@ -118,13 +93,27 @@ app.post("/updateDeviceData", jsonParser, async (req, res) => {
         }),
       });
 
-      const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
       realTimeRef.update({
         timeUpdate: getTime(),
         location: location,
         ...dataUpdate,
         status: true,
       });
+    } else {
+      realTimeRef.update({
+        timeUpdate: getTime(),
+        ...dataUpdate,
+        status: true,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+app.post("/updateDeviceData", jsonParser, async (req, res) => {
+  try {
+    {
+      updateFriebaseDataDevice(req.body);
       res.send({ alert: "updated!" });
     }
   } catch (error) {
