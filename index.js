@@ -78,7 +78,7 @@ const updateFriebaseDataDevice = async (json) => {
       console.log("firestore");
       const coordinates = dataUpdate.coordinates;
       const reverseGeocode = await axios({
-        url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.longitude}&lon=${coordinates.latitude}`,
+        url: `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${coordinates.latitude}&lon=${coordinates.longitude}`,
         method: "get",
       });
       const location = reverseGeocode.data.display_name;
