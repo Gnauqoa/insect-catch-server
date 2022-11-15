@@ -51,10 +51,11 @@ app.use(jsonParser);
 
 clientMQTT.on("connect", () => {
   console.log("connect MQTT");
+  clientMQTT.subscribe("/postDataDevice", () => {
+    console.log("subscribe to topic /postDataDevice");
+  });
 });
-clientMQTT.subscribe("/postDataDevice", () => {
-  console.log("subscribe to topic /postDataDevice");
-});
+
 clientMQTT.on("message", (topic, payload) => {
   if (topic === "/postDataDevice") {
     const dataDevice = JSON.parse(payload);
@@ -65,7 +66,7 @@ const updateFriebaseDataDevice = async (json) => {
   try {
     const idDevice = json.id;
     const dataUpdate = json.data;
-    console.log(idDevice, dataUpdate);
+    // console.log(idDevice, dataUpdate);
 
     const fireStoteRef = fireStoreDB.collection("device").doc(idDevice);
     const realTimeRef = realTimeDb.ref(`device/${idDevice}`);
@@ -75,6 +76,16 @@ const updateFriebaseDataDevice = async (json) => {
       dataUpdate.hasOwnProperty("optic") &&
       dataUpdate.hasOwnProperty("coordinates")
     ) {
+      if (
+        dataUpdate.temp === 0 ||
+        dataUpdate.humi === 0 ||
+        dataUpdate.optic === 0 ||
+        dataUpdate.coordinates.latitude === 0 ||
+        dataUpdate.coordinates.longitude === 0
+      ) {
+        console.log("exit");
+        return;
+      }
       console.log("firestore");
       const coordinates = dataUpdate.coordinates;
       const reverseGeocode = await axios({
