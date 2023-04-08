@@ -15,7 +15,7 @@
 .firebase_key.json
 .DS_Store
 .env
-./index_old.js
+.index_old.js
 .env.local
 .env.development.local
 .env.test.local
