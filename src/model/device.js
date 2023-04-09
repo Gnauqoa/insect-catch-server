@@ -78,5 +78,5 @@ deviceSchema.methods.createRes = async function () {
   const device = this;
   return formatDeviceRes(device);
 };
-const DeviceModal = model("Device", deviceSchema);
-export default DeviceModal;
+const DeviceModel = model("Device", deviceSchema);
+export default DeviceModel;
