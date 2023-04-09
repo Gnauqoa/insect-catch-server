@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import {} from "dotenv/config";
-import formatDeviceRes from "../services/formatDeviceRes";
+import formatDeviceRes from "../services/formatDeviceRes.js";
 
 const deviceSchema = new Schema(
   {

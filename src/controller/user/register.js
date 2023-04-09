@@ -18,7 +18,7 @@ const register = async (req, res) => {
     });
     await user.save();
     res.status(201).json({
-      message: "Create user success",
+      message: "Register success",
       data: await user.createRes(),
     });
   } catch (error) {
