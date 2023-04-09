@@ -7,6 +7,7 @@ const formatUserRes = (user) => {
     created_at: user.created_at,
     updated_at: user.updated_at,
     birth: user.birth,
+    device_list: user.device_list,
   };
 };
 

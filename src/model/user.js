@@ -1,10 +1,11 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, ObjectId } from "mongoose";
 import validator from "validator";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
 import bcrypt from "bcrypt";
 import formatUserRes from "../services/formatUserRes.js";
+import formatDeviceRes from "../services/formatDeviceRes.js";
 
 const secretKey = process.env.JWT_KEY;
 const expiresTime = process.env.expiresTime;
@@ -57,6 +58,15 @@ const userSchema = new Schema(
           "Password length must be longer than 8, have 1 uppercase, 1 lowercase and 1 number",
       },
     },
+    device_list: [
+      {
+        device_id: {
+          type: Schema.Types.ObjectId,
+          required: true,
+          ref: "Device",
+        },
+      },
+    ],
     access_tokens: [
       {
         access_tokens: {
@@ -85,7 +95,7 @@ userSchema.methods.createAccessToken = async function () {
     expiresIn: expiresTime,
   });
   User.access_tokens = User.access_tokens.concat({ access_tokens });
-  console.log(User.access_tokens)
+  console.log(User.access_tokens);
   await User.save();
   return access_tokens;
 };
@@ -99,7 +109,9 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.createRes = async function () {
   const User = this;
+  await User.populate("device_list");
+  User.device_list = User.device_list.map((ele) => formatDeviceRes(ele));
   return formatUserRes(User);
 };
-const UserModel = model('User', userSchema);
+const UserModel = model("User", userSchema);
 export default UserModel;
