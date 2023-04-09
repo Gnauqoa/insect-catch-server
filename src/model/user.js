@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, ObjectId } from "mongoose";
 import validator from "validator";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
@@ -57,6 +57,14 @@ const userSchema = new Schema(
           "Password length must be longer than 8, have 1 uppercase, 1 lowercase and 1 number",
       },
     },
+    device_list: [
+      { 
+        device_id: { 
+          type: Schema.Types.ObjectId, 
+          required: true 
+        } 
+      }
+    ],
     access_tokens: [
       {
         access_tokens: {
@@ -85,7 +93,7 @@ userSchema.methods.createAccessToken = async function () {
     expiresIn: expiresTime,
   });
   User.access_tokens = User.access_tokens.concat({ access_tokens });
-  console.log(User.access_tokens)
+  console.log(User.access_tokens);
   await User.save();
   return access_tokens;
 };
@@ -101,5 +109,5 @@ userSchema.methods.createRes = async function () {
   const User = this;
   return formatUserRes(User);
 };
-const UserModel = model('User', userSchema);
+const UserModel = model("User", userSchema);
 export default UserModel;

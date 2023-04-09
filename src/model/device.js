@@ -1,12 +1,5 @@
 import { Schema, model } from "mongoose";
-import validator from "validator";
-import dayjs from "dayjs";
-import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
-import bcrypt from "bcrypt";
-
-const secretKey = process.env.JWT_KEY;
-const expiresTime = process.env.expiresTime;
 
 const deviceSchema = new Schema(
   {
@@ -68,6 +61,12 @@ const deviceSchema = new Schema(
       type: Number,
       default: 0,
     },
+    password: {
+      type: String,
+      required: true,
+      minLength: 8,
+      default: "12345678",
+    },
   },
   {
     collection: "Device",
@@ -75,5 +74,5 @@ const deviceSchema = new Schema(
   }
 );
 
-const DeviceModal = model('Device', deviceSchema);
+const DeviceModal = model("Device", deviceSchema);
 export default DeviceModal;
