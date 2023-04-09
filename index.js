@@ -3,6 +3,7 @@ import cors from "cors";
 import {} from "dotenv/config";
 import mongoose from "mongoose";
 import dayjs from "dayjs";
+import router from "./src/routers/index.js";
 
 const port = process.env.PORT || 4000;
 const database = process.env.DATABASE_URL;
@@ -14,7 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 mongoose.set("strictQuery", false); // hide notify in console
 
-// app.use(version, router);
+app.use(version, router);
 
 app.use((error, req, res, next) => {
   console.log(error);
