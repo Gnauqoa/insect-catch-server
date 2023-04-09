@@ -4,7 +4,7 @@ import {} from "dotenv/config";
 const addQueueSchema = new Schema(
   {
     device_id: { type: Schema.Types.ObjectId, required: true },
-    device_code: { type: String, required: true },
+    add_code: { type: String, required: true },
     expires_in: { type: Date, required: true },
   },
   {
