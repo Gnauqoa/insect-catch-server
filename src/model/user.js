@@ -85,6 +85,7 @@ userSchema.methods.createAccessToken = async function () {
     expiresIn: expiresTime,
   });
   User.access_tokens = User.access_tokens.concat({ access_tokens });
+  console.log(User.access_tokens)
   await User.save();
   return access_tokens;
 };
