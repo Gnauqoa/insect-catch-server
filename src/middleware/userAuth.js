@@ -12,7 +12,8 @@ const userAuth = async (req, res, next) => {
       _id: decodedToken.userId,
     });
     if (!user) return res.status(500).json({ error: "Unauthorized" });
-    if (user.tokens.findIndex((ele) => ele.token === token) === -1)
+
+    if (user.access_tokens.findIndex((ele) => ele.access_tokens === token) === -1)
       return res.status(401).json({ error: "Unauthorized" });
     req.user = user;
     req.token = token;
