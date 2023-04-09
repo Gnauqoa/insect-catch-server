@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import {} from "dotenv/config";
+import formatDeviceRes from "../services/formatDeviceRes";
 
 const deviceSchema = new Schema(
   {
@@ -73,6 +74,9 @@ const deviceSchema = new Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
-
+deviceSchema.methods.createRes = async function () {
+  const device = this;
+  return formatDeviceRes(device);
+};
 const DeviceModal = model("Device", deviceSchema);
 export default DeviceModal;

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
 import bcrypt from "bcrypt";
 import formatUserRes from "../services/formatUserRes.js";
+import formatDeviceRes from "../services/formatDeviceRes.js";
 
 const secretKey = process.env.JWT_KEY;
 const expiresTime = process.env.expiresTime;
@@ -58,12 +59,13 @@ const userSchema = new Schema(
       },
     },
     device_list: [
-      { 
-        device_id: { 
-          type: Schema.Types.ObjectId, 
-          required: true 
-        } 
-      }
+      {
+        device_id: {
+          type: Schema.Types.ObjectId,
+          required: true,
+          ref: "Device",
+        },
+      },
     ],
     access_tokens: [
       {
@@ -107,6 +109,8 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.createRes = async function () {
   const User = this;
+  await User.populate("device_list");
+  User.device_list = User.device_list.map((ele) => formatDeviceRes(ele));
   return formatUserRes(User);
 };
 const UserModel = model("User", userSchema);
