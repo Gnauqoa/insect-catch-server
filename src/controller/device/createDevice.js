@@ -15,7 +15,7 @@ const createDevice = async (req, res) => {
       data: await device.createRes(),
     });
   } catch (err) {
-    res.status(401).json({ error: err.message });
+    res.status(401).json({ message: err.message });
   }
 };
 
