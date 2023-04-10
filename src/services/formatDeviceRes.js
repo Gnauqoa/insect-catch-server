@@ -7,6 +7,7 @@ const formatDeviceRes = (device) => {
     brightness: device.brightness,
     coordinates: device.coordinates,
     humi: device.humi,
+    led_color: device.led_color,
     location: device.location,
     optic: device.optic,
     temp: device.temp,
