@@ -1,12 +1,19 @@
 import { Schema, model } from "mongoose";
 import {} from "dotenv/config";
 import formatDeviceRes from "../services/formatDeviceRes.js";
+import formatDeviceControlRes from "../services/formatDeviceControlRes.js";
+import createTimeType from "./timeType.js";
+
 
 const deviceSchema = new Schema(
   {
     battery: {
       type: Number,
       default: 0,
+    },
+    led_color: {
+      type: String,
+      default: "#ffffff",
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -55,18 +62,9 @@ const deviceSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    time_end: {
-      type: Date,
-      default: 0,
-    },
-    time_start: {
-      type: Date,
-      default: 0,
-    },
-    time_send: {
-      type: Number,
-      default: 0,
-    },
+    time_end: createTimeType(21, 0),
+    time_start: createTimeType(17, 0),
+    time_send: createTimeType(0, 15),
     password: {
       type: String,
       required: true,
@@ -82,6 +80,10 @@ const deviceSchema = new Schema(
 deviceSchema.methods.createRes = async function () {
   const device = this;
   return formatDeviceRes(device);
+};
+deviceSchema.methods.createControlRes = async function () {
+  const device = this;
+  return formatDeviceControlRes(device);
 };
 const DeviceModel = model("Device", deviceSchema);
 export default DeviceModel;

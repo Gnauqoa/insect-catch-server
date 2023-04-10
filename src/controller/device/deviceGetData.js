@@ -8,7 +8,7 @@ const deviceGetData = async (payload) => {
     const device = await deviceAuth(device_id, password);
     clientMQTT.publish(
       `device/${device_id}`,
-      JSON.stringify({ status: 200, data: await device.createRes() })
+      JSON.stringify({ status: 200, data: await device.createControlRes() })
     );
   } catch (err) {
     console.log(err);
