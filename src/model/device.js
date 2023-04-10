@@ -4,6 +4,46 @@ import formatDeviceRes from "../services/formatDeviceRes.js";
 import formatDeviceControlRes from "../services/formatDeviceControlRes.js";
 import createTimeType from "./timeType.js";
 
+const oldDataSchema = new Schema(
+  {
+    coordinates: {
+      latitude: {
+        type: Number,
+        default: 0,
+      },
+      longitude: {
+        type: Number,
+        default: 0,
+      },
+    },
+    humi: {
+      type: Number,
+      default: 0,
+    },
+    optic: {
+      type: Number,
+      default: 0,
+    },
+    temp: {
+      type: Number,
+      default: 0,
+    },
+    rain: {
+      type: Boolean,
+      default: false,
+    },
+    grid_status: {
+      type: Boolean,
+      default: false,
+    },
+    location: {
+      type: String,
+      default: "",
+    },
+  },
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+);
+
 const deviceSchema = new Schema(
   {
     battery: {
@@ -56,44 +96,7 @@ const deviceSchema = new Schema(
       type: Number,
       default: 0,
     },
-    old_data: [
-      {
-        coordinates: {
-          latitude: {
-            type: Number,
-            default: 0,
-          },
-          longitude: {
-            type: Number,
-            default: 0,
-          },
-        },
-        humi: {
-          type: Number,
-          default: 0,
-        },
-        optic: {
-          type: Number,
-          default: 0,
-        },
-        temp: {
-          type: Number,
-          default: 0,
-        },
-        rain: {
-          type: Boolean,
-          default: false,
-        },
-        grid_status: {
-          type: Boolean,
-          default: false,
-        },
-        location: {
-          type: String,
-          default: "",
-        },
-      },
-    ],
+    old_data: [oldDataSchema],
     time_end: createTimeType(21, 0),
     time_start: createTimeType(17, 0),
     time_send: createTimeType(0, 15),
