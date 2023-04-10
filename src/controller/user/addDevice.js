@@ -31,7 +31,6 @@ const addDevice = async (req, res) => {
       },
       { $set: { user: user._id } }
     );
-    await AddQueueModel.deleteMany({ device_id: queue.device_id });
     clientMQTT.publish(
       `device/${queue.device_id}`,
       JSON.stringify({
