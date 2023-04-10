@@ -8,6 +8,11 @@ const deviceSchema = new Schema(
       type: Number,
       default: 0,
     },
+    user: {
+      type: Schema.Types.ObjectId,
+      default: null,
+      ref: "User",
+    },
     brightness: {
       type: Number,
       default: 0,
@@ -78,5 +83,5 @@ deviceSchema.methods.createRes = async function () {
   const device = this;
   return formatDeviceRes(device);
 };
-const DeviceModal = model("Device", deviceSchema);
-export default DeviceModal;
+const DeviceModel = model("Device", deviceSchema);
+export default DeviceModel;
