@@ -44,7 +44,7 @@ const addDevice = async (req, res) => {
       data: await new_device.createRes(),
     });
   } catch (err) {
-    res.status(401).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
