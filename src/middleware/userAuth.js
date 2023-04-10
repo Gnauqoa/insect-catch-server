@@ -20,7 +20,7 @@ const userAuth = async (req, res, next) => {
     req.token = token;
     next();
   } catch (error) {
-    res.status(400).send({ error: error.message });
+    res.status(401).send({ error: "Unauthorized" });
   }
 };
 

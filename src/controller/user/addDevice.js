@@ -31,6 +31,7 @@ const addDevice = async (req, res) => {
       },
       { $set: { user: user._id } }
     );
+
     clientMQTT.publish(
       `device/${queue.device_id}`,
       JSON.stringify({
@@ -39,6 +40,7 @@ const addDevice = async (req, res) => {
         data: { user: { name: user.first_name + " " + user.last_name } },
       })
     );
+    await queue.deleteOne();
     res.status(201).json({
       message: "Add device success",
       data: await new_device.createRes(),
