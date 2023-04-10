@@ -35,7 +35,7 @@ const deviceCreateAddEvent = async (payload) => {
       `device/${device_id}`,
       JSON.stringify({
         status: 201,
-        message: "OK",
+        message: "add code",
         data: { code: newQueue.add_code },
       })
     );
@@ -43,7 +43,7 @@ const deviceCreateAddEvent = async (payload) => {
     console.log(err);
     clientMQTT.publish(
       `device/${device_id}`,
-      JSON.stringify({ status: 401, message: err.message })
+      JSON.stringify({ status: 500, message: err.message })
     );
   }
 };

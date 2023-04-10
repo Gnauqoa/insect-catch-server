@@ -14,7 +14,7 @@ const deviceGetData = async (payload) => {
     console.log(err);
     clientMQTT.publish(
       `device/${device_id}`,
-      JSON.stringify({ status: 401, message: err.message })
+      JSON.stringify({ status: 500, message: err.message })
     );
   }
 };
