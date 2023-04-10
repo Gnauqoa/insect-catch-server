@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import AddQueueModel from "../../model/addQueue.js";
 import DeviceModel from "../../model/device.js";
 import UserModel from "../../model/user.js";
+import clientMQTT from "../../config/mqtt.js";
 
 const addDevice = async (req, res) => {
   try {
@@ -31,6 +32,14 @@ const addDevice = async (req, res) => {
       { $set: { user: user._id } }
     );
     await AddQueueModel.deleteMany({ device_id: queue.device_id });
+    clientMQTT.publish(
+      `device/${queue.device_id}`,
+      JSON.stringify({
+        status: 200,
+        message: "Has been added",
+        data: { user: { name: user.first_name + " " + user.last_name } },
+      })
+    );
     res.status(201).json({
       message: "Add device success",
       data: await new_device.createRes(),
