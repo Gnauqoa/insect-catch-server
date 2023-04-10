@@ -11,6 +11,7 @@ const deviceSchema = new Schema(
     user: {
       type: Schema.Types.ObjectId,
       default: null,
+      ref: "User",
     },
     brightness: {
       type: Number,

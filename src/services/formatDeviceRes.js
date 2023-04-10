@@ -1,3 +1,5 @@
+import formatUserRes from "./formatUserRes.js";
+
 const formatDeviceRes = (device) => {
   return {
     id: device._id,
@@ -14,6 +16,7 @@ const formatDeviceRes = (device) => {
     time_end: device.time_end,
     time_start: device.time_start,
     time_send: device.time_send,
+    user: device.user,
   };
 };
 

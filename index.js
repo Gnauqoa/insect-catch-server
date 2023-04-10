@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import {} from "dotenv/config";
 import mongoose from "mongoose";
-import dayjs from "dayjs";
 import router from "./src/routers/index.js";
 
 const port = process.env.PORT || 4000;
