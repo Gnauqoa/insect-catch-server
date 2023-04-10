@@ -24,7 +24,7 @@ const createAddCode = async (payload) => {
       );
     device.user = null;
     await device.save();
-
+    await AddQueueModel.deleteMany({ device_id: device_id });
     const newQueue = new AddQueueModel({
       device_id: device_id,
       add_code: createRandomString(6),

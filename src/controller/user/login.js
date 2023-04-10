@@ -13,7 +13,7 @@ const login = async (req, res) => {
     const token = await user.createAccessToken();
     res.json({ token });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 

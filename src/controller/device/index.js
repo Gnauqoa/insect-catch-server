@@ -1,4 +1,6 @@
 import createDevice from "./createDevice.js";
 import createAddCode from "./createAddCode.js";
+import getDevice from "./getDevice.js";
+import deviceGetData from "./deviceGetData.js";
 
-export { createDevice, createAddCode };
+export { createDevice, createAddCode, getDevice, deviceGetData };
