@@ -5,7 +5,7 @@ import UserModel from "../../model/user.js";
 import createRandomString from "../../services/createRandomString.js";
 import dayjs from "dayjs";
 
-const createAddCode = async (payload) => {
+const deviceCreateAddEvent = async (payload) => {
   const data = JSON.parse(payload);
   const { device_id, password } = data;
   try {
@@ -48,4 +48,4 @@ const createAddCode = async (payload) => {
   }
 };
 
-export default createAddCode;
+export default deviceCreateAddEvent;
