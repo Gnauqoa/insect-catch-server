@@ -1,4 +1,4 @@
-import clientMQTT from "../../config/mqtt.js";
+import clientMQTT from "../../mqtt/index.js";
 import deviceAuth from "../../middleware/deviceAuth.js";
 import reverseGeocoding from "../../services/reverseGeocoding.js";
 

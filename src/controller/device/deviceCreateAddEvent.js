@@ -1,5 +1,5 @@
 import deviceAuth from "../../middleware/deviceAuth.js";
-import clientMQTT from "../../config/mqtt.js";
+import clientMQTT from "../../mqtt/index.js";
 import AddQueueModel from "../../model/addQueue.js";
 import UserModel from "../../model/user.js";
 import createRandomString from "../../services/createRandomString.js";
