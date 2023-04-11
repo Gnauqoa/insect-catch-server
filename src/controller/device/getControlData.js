@@ -1,7 +1,7 @@
 import clientMQTT from "../../mqtt/index.js";
 import deviceAuth from "../../middleware/deviceAuth.js";
 
-const deviceGetData = async (payload) => {
+const getControlData = async (payload) => {
   const data = JSON.parse(payload);
   const { device_id, password } = data;
   try {
@@ -19,4 +19,4 @@ const deviceGetData = async (payload) => {
   }
 };
 
-export default deviceGetData;
+export default getControlData;

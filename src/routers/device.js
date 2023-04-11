@@ -2,17 +2,17 @@ import { Router } from "express";
 import { addTopic } from "../mqtt/index.js";
 import {
   createDevice,
-  deviceCreateAddEvent,
-  deviceGetData,
-  deviceUpdateData,
+  createAddEvent,
+  getControlData,
+  updateSensorData,
 } from "../controller/device/index.js";
 
 const deviceRouter = Router();
 
 deviceRouter.post("/", createDevice);
 // for device
-addTopic("deviceCreateAddEvent", deviceCreateAddEvent);
-addTopic("deviceGetData", deviceGetData);
-addTopic("deviceUpdateData", deviceUpdateData);
+addTopic("deviceCreateAddEvent", createAddEvent);
+addTopic("deviceGetData", getControlData);
+addTopic("deviceUpdateData", updateSensorData);
 
 export default deviceRouter;

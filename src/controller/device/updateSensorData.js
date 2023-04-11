@@ -2,7 +2,7 @@ import clientMQTT from "../../mqtt/index.js";
 import deviceAuth from "../../middleware/deviceAuth.js";
 import reverseGeocoding from "../../services/reverseGeocoding.js";
 
-const deviceUpdateData = async (payload) => {
+const updateSensorData = async (payload) => {
   const data = JSON.parse(payload);
   const { device_id, password, device_data } = data;
   try {
@@ -35,4 +35,4 @@ const deviceUpdateData = async (payload) => {
   }
 };
 
-export default deviceUpdateData;
+export default updateSensorData;

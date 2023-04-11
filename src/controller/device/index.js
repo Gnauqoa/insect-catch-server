@@ -1,12 +1,12 @@
 import createDevice from "./createDevice.js";
-import deviceCreateAddEvent from "./deviceCreateAddEvent.js";
+import createAddEvent from "./createAddEvent.js";
 import getDevice from "./getDevice.js";
-import deviceGetData from "./deviceGetData.js";
-import deviceUpdateData from "./deviceUpdateData.js";
+import getControlData from "./getControlData.js";
+import updateSensorData from "./updateSensorData.js";
 export {
   createDevice,
-  deviceCreateAddEvent,
+  createAddEvent,
   getDevice,
-  deviceGetData,
-  deviceUpdateData,
+  getControlData,
+  updateSensorData,
 };
