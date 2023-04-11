@@ -9,6 +9,7 @@ const database = process.env.DATABASE_URL;
 const app = express();
 const version = "/v1";
 
+
 app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
