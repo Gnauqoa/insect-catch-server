@@ -29,7 +29,8 @@ const addDevice = async (req, res) => {
       {
         _id: queue.device_id,
       },
-      { $set: { user: user._id } }
+      { $set: { user: user._id } },
+      { new: true }
     );
 
     clientMQTT.publish(
