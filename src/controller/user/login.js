@@ -1,5 +1,5 @@
 import UserModel from "../../model/user.js";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import {} from "dotenv/config";
 
 const login = async (req, res) => {
@@ -11,10 +11,10 @@ const login = async (req, res) => {
     if (!isPasswordMatch)
       return res.status(401).json({ message: "Password not correct" });
     const token = await user.createAccessToken();
-    res.json({ token });
+    res.status(200).json({ data: { access_token: token } });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-export default login
+export default login;
