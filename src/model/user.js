@@ -1,4 +1,4 @@
-import { Schema, model, ObjectId } from "mongoose";
+import { Schema, model } from "mongoose";
 import validator from "validator";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
@@ -7,8 +7,10 @@ import bcrypt from "bcrypt";
 import formatUserRes from "../services/formatUserRes.js";
 import formatDeviceRes from "../services/formatDeviceRes.js";
 
-const secretKey = process.env.JWT_KEY;
-const expiresTime = process.env.expiresTime;
+const access_token_key = process.env.ACCESS_TOKEN_KEY;
+const access_token_expires_time = process.env.ACCESS_TOKEN_EXPIRES_TIME;
+const refresh_token_key = process.env.REFRESH_TOKEN_KEY;
+const refresh_token_expires_time = process.env.REFRESH_TOKEN_EXPIRES_TIME;
 
 const userSchema = new Schema(
   {
@@ -67,17 +69,13 @@ const userSchema = new Schema(
         },
       },
     ],
-    access_tokens: [
+    tokens: [
       {
-        access_tokens: {
+        access_token: {
           type: String,
           required: true,
         },
-      },
-    ],
-    refresh_tokens: [
-      {
-        refresh_tokens: {
+        refresh_token: {
           type: String,
           required: true,
         },
@@ -89,14 +87,17 @@ const userSchema = new Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
-userSchema.methods.createAccessToken = async function () {
+userSchema.methods.createToken = async function () {
   const User = this;
-  const access_tokens = jwt.sign({ userId: User._id }, secretKey, {
-    expiresIn: expiresTime,
+  const access_token = jwt.sign({ userId: User._id }, access_token_key, {
+    expiresIn: access_token_expires_time,
   });
-  User.access_tokens = User.access_tokens.concat({ access_tokens });
+  const refresh_token = jwt.sign({ userId: User._id }, refresh_token_key, {
+    expiresIn: refresh_token_expires_time,
+  });
+  User.tokens = User.tokens.concat({ access_token, refresh_token });
   await User.save();
-  return access_tokens;
+  return { access_token, refresh_token };
 };
 
 userSchema.pre("save", async function (next) {
