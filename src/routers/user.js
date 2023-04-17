@@ -20,9 +20,9 @@ userRouter.post("/refresh_token", requestAccessToken);
 userRouter.post("/login", login);
 userRouter.get("/current", userAuth, getUser);
 userRouter.delete("/current/logout", userAuth, logout);
-userRouter.delete("/current/logoutAll", userAuth, logoutAll);
+userRouter.delete("/current/logout_all", userAuth, logoutAll);
 
-userRouter.post("/current/addDevice", userAuth, addDevice);
+userRouter.post("/current/add_device", userAuth, addDevice);
 userRouter.get("/current/device/:device_id", userAuth, addedAuth, getDevice);
 userRouter.put("/current/device/:device_id", userAuth, addedAuth, updateDevice);
 
