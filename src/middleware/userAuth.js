@@ -11,8 +11,6 @@ const userAuth = async (req, res, next) => {
     const user = await UserModel.findOne({
       _id: decodedToken.userId,
     });    
-    console.log(user);
-
     if (!user) return res.status(401).json({ error: "Unauthorized" });
     if (
       user.tokens.findIndex((ele) => ele.access_token === access_token) === -1
