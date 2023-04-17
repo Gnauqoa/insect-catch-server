@@ -3,6 +3,7 @@ import {
   getUser,
   login,
   register,
+  requestAccessToken,
 } from "../controller/user/index.js";
 import { Router } from "express";
 import userAuth from "../middleware/userAuth.js";
@@ -12,6 +13,8 @@ import { getDevice, updateDevice } from "../controller/device/index.js";
 const userRouter = Router();
 
 userRouter.post("/", register);
+userRouter.post("/refresh_token", requestAccessToken);
+
 userRouter.post("/login", login);
 userRouter.get("/current", userAuth, getUser);
 userRouter.post("/current/addDevice", userAuth, addDevice);

@@ -10,12 +10,12 @@ const userAuth = async (req, res, next) => {
     const decodedToken = jwt.verify(access_token, access_token_key);
     const user = await UserModel.findOne({
       _id: decodedToken.userId,
-    });
+    });    
+    console.log(user);
+
     if (!user) return res.status(401).json({ error: "Unauthorized" });
     if (
-      user.tokens.findIndex(
-        (ele) => ele.access_token === access_token
-      ) === -1
+      user.tokens.findIndex((ele) => ele.access_token === access_token) === -1
     )
       return res.status(401).json({ error: "Unauthorized" });
     req.user = user;

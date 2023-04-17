@@ -1,4 +1,4 @@
-import UserModel from "../../model/user";
+import UserModel from "../../model/user.js";
 import jwt from "jsonwebtoken";
 
 const access_token_key = process.env.ACCESS_TOKEN_KEY;
@@ -18,7 +18,7 @@ const requestAccessToken = async (req, res) => {
     );
     if (indexToken === -1)
       return res.status(401).json({ error: "Unauthorized" });
-    const access_token = jwt.sign(
+    const access_token = await jwt.sign(
       { userId: decodedToken.userId },
       access_token_key,
       {
@@ -26,6 +26,7 @@ const requestAccessToken = async (req, res) => {
       }
     );
     user.tokens[indexToken].access_token = access_token;
+    await user.save();
     res.status(200).json({ data: { access_token } });
   } catch (err) {
     res.status(500).json({ message: err.message });
