@@ -28,9 +28,9 @@ const userSchema = new Schema(
       validate: {
         validator: (value) => {
           const age = dayjs().diff(value, "year", true);
-          return age >= 18 && age <= 55;
+          return age >= 18;
         },
-        message: "User age must be between 18 and 55",
+        message: "User age must be older than 18",
       },
     },
     email: {
