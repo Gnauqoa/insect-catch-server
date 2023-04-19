@@ -28,9 +28,9 @@ const userSchema = new Schema(
       validate: {
         validator: (value) => {
           const age = dayjs().diff(value, "year", true);
-          return age >= 18 && age <= 55;
+          return age >= 18;
         },
-        message: "User age must be between 18 and 55",
+        message: "User age must be older than 18",
       },
     },
     email: {
@@ -71,14 +71,10 @@ const userSchema = new Schema(
     ],
     tokens: [
       {
-        access_tokens_list: [
-          {
-            access_token: {
-              type: String,
-              required: true,
-            },
-          },
-        ],
+        access_token: {
+          type: String,
+          required: true,
+        },
         refresh_token: {
           type: String,
           required: true,
@@ -99,10 +95,7 @@ userSchema.methods.createToken = async function () {
   const refresh_token = jwt.sign({ userId: User._id }, refresh_token_key, {
     expiresIn: refresh_token_expires_time,
   });
-  User.tokens = User.tokens.concat({
-    access_tokens_list: [{ access_token }],
-    refresh_token,
-  });
+  User.tokens = User.tokens.concat({ access_token, refresh_token });
   await User.save();
   return { access_token, refresh_token };
 };

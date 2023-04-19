@@ -5,7 +5,6 @@ const register = async (req, res) => {
   try {
     const { first_name, last_name, birth, email, password } =
       req.body;
-    const { date, month, year } = birth;
     const existingUser = await UserModel.findOne({ email });
     if (existingUser)
       return res.status(400).json({ message: "User already exists" });
@@ -13,7 +12,7 @@ const register = async (req, res) => {
       email,
       first_name,
       last_name,
-      birth: dayjs()["date"](date)["month"](month)["year"](year).toDate(),
+      birth: dayjs(birth).toDate(),
       password: password || "12345678",
     });
     await user.save();
