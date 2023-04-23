@@ -1,3 +1,4 @@
+import cloudinary from "../../config/cloudinary.js";
 import clientMQTT from "../../config/mqtt.js";
 import deviceAuth from "../../middleware/deviceAuth.js";
 import reverseGeocoding from "../../services/reverseGeocoding.js";
@@ -7,6 +8,17 @@ const updateSensorData = async (payload) => {
   const { device_id, password, device_data } = data;
   try {
     const device = await deviceAuth(device_id, password);
+    const img_base64 = device_data.img;
+
+    const bufferData = Buffer.from(
+      img_base64.replace(/^data:image\/\w+;base64,/, ""),
+      "base64"
+    );
+
+    const loc = await cloudinary.uploader.upload(img_base64, {
+      folder: `device/${device_id}`,
+    });
+    console.log(loc.url);
     device.old_data.push({
       coordinates: device.coordinates,
       humi: device.humi,
@@ -26,6 +38,10 @@ const updateSensorData = async (payload) => {
     const location = await reverseGeocoding(device_data.coordinates);
     device.location = location.data.display_name;
     await device.save();
+    clientMQTT.publish(
+      `device/${device_id}`,
+      JSON.stringify({ status: 200, message: "update success!" })
+    );
   } catch (err) {
     console.log(err);
     clientMQTT.publish(
