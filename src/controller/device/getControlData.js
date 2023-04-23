@@ -1,4 +1,4 @@
-import clientMQTT from "../../mqtt/index.js";
+import clientMQTT from "../../config/mqtt.js";
 import deviceAuth from "../../middleware/deviceAuth.js";
 
 const getControlData = async (payload) => {

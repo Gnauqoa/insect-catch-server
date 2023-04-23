@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { addTopic } from "../mqtt/index.js";
+import { addTopic } from "../config/mqtt.js";
 import {
   createDevice,
   createAddEvent,
