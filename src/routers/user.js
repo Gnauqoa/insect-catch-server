@@ -12,7 +12,6 @@ import userAuth from "../middleware/userAuth.js";
 import addedAuth from "../middleware/addedAuth.js";
 import { getDevice, updateDevice } from "../controller/device/index.js";
 import upload from "../config/cloudinary.js";
-
 const userRouter = Router();
 
 userRouter.post("/", register);
@@ -31,6 +30,7 @@ userRouter.post("/test", upload.single("image"), async (req, res) => {
     res.status(500).json({ message: "Failed to upload image" });
   }
 });
+
 userRouter.post("/current/add_device", userAuth, addDevice);
 userRouter.get("/current/device/:device_id", userAuth, addedAuth, getDevice);
 userRouter.put("/current/device/:device_id", userAuth, addedAuth, updateDevice);
