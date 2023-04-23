@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import AddQueueModel from "../../model/addQueue.js";
 import DeviceModel from "../../model/device.js";
 import UserModel from "../../model/user.js";
-import clientMQTT from "../../mqtt/index.js";
+import clientMQTT from "../../config/mqtt.js";
 
 const addDevice = async (req, res) => {
   try {

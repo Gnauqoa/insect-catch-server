@@ -4,6 +4,12 @@ import formatDeviceRes from "../services/formatDeviceRes.js";
 import formatDeviceControlRes from "../services/formatDeviceControlRes.js";
 import createTimeType from "./timeType.js";
 
+const imageSchema = new Schema(
+  {
+    url: { type: String, required: true },
+  },
+  { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
+);
 const oldDataSchema = new Schema(
   {
     coordinates: {
@@ -112,6 +118,7 @@ const deviceSchema = new Schema(
       minLength: 8,
       default: "12345678",
     },
+    images_list: [imageSchema],
   },
   {
     collection: "Device",
