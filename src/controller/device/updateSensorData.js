@@ -9,16 +9,9 @@ const updateSensorData = async (payload) => {
   try {
     const device = await deviceAuth(device_id, password);
     const img_base64 = device_data.img;
-
-    const bufferData = Buffer.from(
-      img_base64.replace(/^data:image\/\w+;base64,/, ""),
-      "base64"
-    );
-
     const loc = await cloudinary.uploader.upload(img_base64, {
       folder: `device/${device_id}`,
     });
-    console.log(loc.url);
     device.old_data.push({
       coordinates: device.coordinates,
       humi: device.humi,
@@ -28,6 +21,7 @@ const updateSensorData = async (payload) => {
       grid_status: device.grid_status,
       location: device.location,
     });
+    device.images_list.push({ url: loc.url });
     device.battery = device_data.battery;
     device.coordinates = device_data.coordinates;
     device.humi = device_data.humi;
