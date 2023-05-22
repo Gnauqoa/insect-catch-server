@@ -1,5 +1,6 @@
 import {
   addDevice,
+  getDeviceList,
   getUser,
   login,
   logout,
@@ -20,8 +21,7 @@ userRouter.post("/login", login);
 userRouter.get("/current", userAuth, getUser);
 userRouter.delete("/current/logout", userAuth, logout);
 userRouter.delete("/current/logout_all", userAuth, logoutAll);
-
-
+userRouter.get("/current/device", userAuth, getDeviceList);
 
 userRouter.post("/current/add_device", userAuth, addDevice);
 userRouter.get("/current/device/:device_id", userAuth, addedAuth, getDevice);

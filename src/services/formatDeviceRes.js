@@ -1,6 +1,6 @@
-const formatDeviceRes = (device) => {
+const formatDeviceRes = (device_ele) => {
+  const device = device_ele.device_id;
   const images_length = device.images_list.length;
-  console.log(images_length);
   return {
     id: device._id,
     battery: device.battery,

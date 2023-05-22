@@ -109,8 +109,8 @@ userSchema.pre("save", async function (next) {
 
 userSchema.methods.createRes = async function () {
   const User = this;
-  await User.populate("device_list");
-  User.device_list = User.device_list.map((ele) => formatDeviceRes(ele));
+  await User.populate("device_list.device_id");
+  User.device_list = User.device_list.map((ele) => {console.log(formatDeviceRes(ele))});
   return formatUserRes(User);
 };
 const UserModel = model("User", userSchema);
