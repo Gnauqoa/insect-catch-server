@@ -66,6 +66,11 @@ const deviceSchema = new Schema(
         default: 0,
       },
     },
+    name: {
+      type: String,
+      required: true,
+      default: "Insect catch",
+    },
     humi: {
       type: Number,
       default: 0,

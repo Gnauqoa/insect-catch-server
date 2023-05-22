@@ -13,6 +13,7 @@ const updateDevice = async (req, res) => {
           time_end: control_data.time_end,
           time_start: control_data.time_start,
           time_send: control_data.time_send,
+          grid_status: control_data.grid_status,
         },
       },
       { new: true }

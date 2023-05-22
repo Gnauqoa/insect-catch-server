@@ -5,6 +5,7 @@ import addDevice from "./addDevice.js";
 import requestAccessToken from "./requestAccessToken.js";
 import logout from "./logout.js";
 import logoutAll from "./logoutAll.js";
+import getDeviceList from "./getDeviceList.js";
 export {
   register,
   getUser,
@@ -13,4 +14,5 @@ export {
   requestAccessToken,
   logout,
   logoutAll,
+  getDeviceList,
 };
