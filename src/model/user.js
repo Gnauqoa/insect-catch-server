@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
 import bcrypt from "bcrypt";
-import formatUserRes from "../services/formatUserRes.js";
+import formatUserRes from "../services/UserService/formatUserRes.js";
 import formatDeviceRes from "../services/formatDeviceRes.js";
 
 const access_token_key = process.env.ACCESS_TOKEN_KEY;

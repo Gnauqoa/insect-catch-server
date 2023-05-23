@@ -1,4 +1,4 @@
-const formatUserRes = (user) => {
+const formatUserRes =  async (user) => {
   return {
     id: user._id,
     email: user.email,
@@ -7,7 +7,6 @@ const formatUserRes = (user) => {
     created_at: user.created_at,
     updated_at: user.updated_at,
     birth: user.birth,
-    device_list: user.device_list,
   };
 };
 
