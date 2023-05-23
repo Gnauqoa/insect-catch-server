@@ -3,7 +3,7 @@ import formatUserRes from "./formatUserRes.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
-
+import dayjs from "dayjs";
 const access_token_key = process.env.ACCESS_TOKEN_KEY;
 const access_token_expires_time = process.env.ACCESS_TOKEN_EXPIRES_TIME;
 const refresh_token_key = process.env.REFRESH_TOKEN_KEY;
@@ -52,7 +52,37 @@ class UserService {
     this.User = user;
     return await this.createToken();
   }
-
+  /**
+   * Register a new user.
+   * @param {string} first_name - The user's first name.
+   * @param {string} last_name - The user's last name.
+   * @param {string} birth - The user's birth date.
+   * @param {string} email - The user's email.
+   * @param {string} password - The user's password.
+   * @returns {{
+   *     "id": ObjectId,
+   *     "email": string,
+   *     "first_name": string,
+   *     "last_name": string,
+   *     "created_at": Date,
+   *     "updated_at": Date,
+   *     "birth": Date
+   *   } | null} - The registered user data if successful, otherwise null.
+   */
+  async register(first_name, last_name, birth, email, password) {
+    const existingUser = await UserModel.findOne({ email });
+    if (existingUser) return null;
+    const user = new UserModel({
+      email,
+      first_name,
+      last_name,
+      birth: dayjs(birth).toDate(),
+      password: password || "12345678",
+    });
+    await user.save();
+    this.User = user;
+    return await formatUserRes(this.User);
+  }
   /**
    * Return user data excluding the user's device list.
    * @returns {{
