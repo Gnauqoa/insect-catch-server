@@ -1,7 +1,7 @@
 import cloudinary from "../../config/cloudinary.js";
 import clientMQTT from "../../config/mqtt.js";
 import deviceAuth from "../../middleware/deviceAuth.js";
-import reverseGeocoding from "../../services/reverseGeocoding.js";
+import reverseGeocoding from "../../services/locationIq.js";
 
 const updateSensorData = async (payload) => {
   const data = JSON.parse(payload);
