@@ -1,5 +1,7 @@
+import cloudinary from "../config/cloudinary.js";
 import DeviceModel from "../model/device.js";
 import { publishMessage } from "./mqtt.js";
+import reverseGeocoding from "./locationIq.js";
 
 class DeviceService {
   /**
@@ -42,6 +44,33 @@ class DeviceService {
           }
         : null,
     };
+  }
+  async updateSensorData(sensor_data) {
+    const img_base64 = sensor_data.img;
+    const loc = await cloudinary.uploader.upload(img_base64, {
+      folder: `device/${this.Device._id}`,
+    });
+    this.Device.old_data.push({
+      coordinates: this.Device.coordinates,
+      humi: this.Device.humi,
+      optic: this.Device.optic,
+      temp: this.Device.temp,
+      rain: this.Device.rain,
+      grid_status: this.Device.grid_status,
+      location: this.Device.location,
+    });
+    this.Device.images_list.push({ url: loc.url });
+    this.Device.battery = sensor_data.battery;
+    this.Device.coordinates = sensor_data.coordinates;
+    this.Device.humi = sensor_data.humi;
+    this.Device.optic = sensor_data.optic;
+    this.Device.temp = sensor_data.temp;
+    this.Device.rain = sensor_data.rain;
+    this.Device.grid_status = sensor_data.grid_status;
+    const location = await reverseGeocoding(this.Device.coordinates);
+    this.Device.location = location.data.display_name;
+    await this.Device.save();
+    this.sendMessage({ status: 200, message: "update success!" });
   }
   async updateControlData(control_data) {
     this.Device.brightness = control_data.brightness;
