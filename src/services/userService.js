@@ -148,6 +148,14 @@ class UserService {
     });
     return new_device;
   }
+  async getDeviceList() {
+    await this.User.populate("device_list.device_id");
+    return await Promise.all(
+      this.User.device_list.map(
+        async (device) => await new DeviceService(device.device_id).getDevice()
+      )
+    );
+  }
   /**
    * Verifies the access token and retrieves the corresponding user.
    * @param {string} access_token - The access token to be verified.
@@ -169,7 +177,14 @@ class UserService {
     if (indexToken === -1) return null;
     return { user, access_token, indexToken };
   }
-
+  async verifyDevice(device_id) {
+    const device = await DeviceModel.findOne({
+      _id: device_id,
+      user: this.User._id,
+    });
+    if (device) return device;
+    return 404;
+  }
   /**
    * Return user data excluding the user's device list.
    * @returns {{
