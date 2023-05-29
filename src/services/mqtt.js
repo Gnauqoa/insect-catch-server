@@ -1,5 +1,5 @@
 import clientMQTT from "../config/mqtt.js";
-import validator from "validator";
+
 const addTopic = (topic, callback) => {
   clientMQTT.on("connect", () => {
     clientMQTT.subscribe(topic, () => {

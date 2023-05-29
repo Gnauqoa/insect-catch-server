@@ -17,10 +17,19 @@ class DeviceService {
   constructor(Device) {
     this.Device = Device;
   }
+  /**
+   * Sends a message to the device.
+   * @param {Object} message - The message to be sent.
+   * @returns {Promise<boolean>} - A promise that resolves to true once the message is sent.
+   */
   async sendMessage(message) {
     publishMessage(`device/${this.Device._id}`, JSON.stringify(message));
     return true;
   }
+  /**
+   * Retrieves the device data.
+   * @returns {Promise<Object>} - A promise that resolves to an object containing the device data.
+   */
   async getDevice() {
     const images_length = this.Device.images_list.length;
     return {
@@ -51,6 +60,11 @@ class DeviceService {
         : null,
     };
   }
+  /**
+   * Updates the sensor data of the device.
+   * @param {Object} sensor_data - The sensor data to be updated.
+   * @returns {Promise<void>} - A promise that resolves once the sensor data is updated.
+   */
   async updateSensorData(sensor_data) {
     const img_base64 = sensor_data.img;
     const loc = await cloudinary.uploader.upload(img_base64, {
@@ -78,6 +92,11 @@ class DeviceService {
     await this.Device.save();
     this.sendMessage({ status: 200, message: "update success!" });
   }
+  /**
+   * Updates the control data of the device.
+   * @param {Object} control_data - The control data to be updated.
+   * @returns {Promise<Object>} - A promise that resolves to an object containing the updated device data.
+   */
   async updateControlData(control_data) {
     this.Device.brightness = control_data.brightness;
     this.Device.led_color = control_data.led_color;
@@ -88,6 +107,10 @@ class DeviceService {
     await this.Device.save();
     return await this.getDevice();
   }
+  /**
+   * Creates the control data for the device.
+   * @returns {Promise<Object>} - A promise that resolves to an object containing the control data.
+   */
   async createControlData() {
     return {
       brightness: this.Device.brightness,
@@ -97,6 +120,10 @@ class DeviceService {
       led_color: this.Device.led_color,
     };
   }
+  /**
+   * Creates a new add device code for the device.
+   * @returns {string} - Add code
+   */
   async createAddDeviceCode() {
     if (this.Device.user)
       await UserModel.findOneAndUpdate(
@@ -114,6 +141,11 @@ class DeviceService {
     await newQueue.save();
     return newQueue.add_code;
   }
+  /**
+   * Creates a new device.
+   * @param {string} admin_code - The admin code used to create the device.
+   * @returns {Object | null} - A promise that resolves to an object containing the created device data if successful, or null if the admin code is incorrect.
+   */
   async createDevice(admin_code) {
     if (adminCode !== admin_code) return null;
     const device = new DeviceModel({});
