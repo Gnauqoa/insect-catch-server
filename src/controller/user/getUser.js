@@ -1,9 +1,7 @@
-import UserService from "../../services/userService.js";
-
 const getUser = async (req, res) => {
   try {
-    const userData = await new UserService(req.user).getUser();
-    res.json({ data: userData });
+    const userService = req.userService;
+    res.json({ data: userService.getUser() });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
