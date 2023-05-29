@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
 import dayjs from "dayjs";
+
 const access_token_key = process.env.ACCESS_TOKEN_KEY;
 const access_token_expires_time = process.env.ACCESS_TOKEN_EXPIRES_TIME;
 const refresh_token_key = process.env.REFRESH_TOKEN_KEY;
@@ -92,6 +93,28 @@ class UserService {
   async logoutAll() {
     this.User.tokens = [];
     await this.User.save();
+  }
+  async requestAccessToken(refresh_token) {
+    const decodedToken = jwt.verify(refresh_token, refresh_token_key);
+    const user = await UserModel.findOne({
+      _id: decodedToken.userId,
+    });
+    this.User = user;
+    if (!this.User) return null;
+    const indexToken = this.User.tokens.findIndex(
+      (ele) => ele.refresh_token === refresh_token
+    );
+    if (indexToken === -1) return null;
+    const access_token = await jwt.sign(
+      { userId: decodedToken.userId },
+      access_token_key,
+      {
+        expiresIn: access_token_expires_time,
+      }
+    );
+    this.User.tokens[indexToken].access_token = access_token;
+    await this.User.save();
+    return access_token;
   }
   /**
    * Verifies the access token and retrieves the corresponding user.
