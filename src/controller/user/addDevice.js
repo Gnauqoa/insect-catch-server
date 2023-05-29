@@ -1,50 +1,17 @@
-import dayjs from "dayjs";
-import AddQueueModel from "../../model/addQueue.js";
-import DeviceModel from "../../model/device.js";
-import UserModel from "../../model/user.js";
-import clientMQTT from "../../config/mqtt.js";
+import UserService from "../../services/userService.js";
 
 const addDevice = async (req, res) => {
   try {
     const add_code = req.body.add_code;
     const user = req.user;
-    const queue = await AddQueueModel.findOne({ add_code: add_code });
-    if (!queue) {
-      res.status(400).json({ message: "Device code is not valid" });
-      return;
-    }
-    if (dayjs().isAfter(queue.expires_in)) {
-      res.status(400).json({ message: "Code is expired" });
-      return;
-    }
-    await UserModel.findOneAndUpdate(
-      { _id: user._id },
-      {
-        $push: {
-          device_list: { device_id: queue.device_id },
-        },
-      }
-    );
-    const new_device = await DeviceModel.findOneAndUpdate(
-      {
-        _id: queue.device_id,
-      },
-      { $set: { user: user._id } },
-      { new: true }
-    );
-
-    clientMQTT.publish(
-      `device/${queue.device_id}`,
-      JSON.stringify({
-        status: 200,
-        message: "Has been added",
-        data: { user: { name: user.first_name + " " + user.last_name } },
-      })
-    );
-    await queue.deleteOne();
+    const new_device = await new UserService(user).addDevice(add_code);
+    if (new_device === 400)
+      return res.status(400).json({ message: "Device code is not valid" });
+    if (new_device === 409)
+      return res.status(409).json({ message: "Device is not ready" });
     res.status(201).json({
       message: "Add device success",
-      data: await new_device.createRes(),
+      data: new_device,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

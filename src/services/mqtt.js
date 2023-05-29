@@ -1,5 +1,5 @@
 import clientMQTT from "../config/mqtt.js";
-
+import validator from "validator";
 const addTopic = (topic, callback) => {
   clientMQTT.on("connect", () => {
     clientMQTT.subscribe(topic, () => {
@@ -10,5 +10,7 @@ const addTopic = (topic, callback) => {
     if (_topic === topic) callback(payload);
   });
 };
-
-export { addTopic };
+const publishMessage = (topic, message) => {
+  clientMQTT.publish(topic, message);
+};
+export { addTopic, publishMessage };

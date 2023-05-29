@@ -1,4 +1,4 @@
-import UserService from "../../services/UserService/index.js";
+import UserService from "../../services/userService.js";
 
 const login = async (req, res) => {
   try {

@@ -1,4 +1,4 @@
-import UserService from "../../services/UserService/index.js";
+import UserService from "../../services/userService.js";
 
 const logoutAll = async (req, res) => {
   try {

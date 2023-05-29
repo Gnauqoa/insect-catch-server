@@ -1,9 +1,11 @@
-import UserModel from "../../model/user.js";
-import formatUserRes from "./formatUserRes.js";
+import UserModel from "../model/user.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
 import dayjs from "dayjs";
+import AddQueueModel from "../model/addQueue.js";
+import DeviceModel from "../model/device.js";
+import DeviceService from "./deviceService.js";
 
 const access_token_key = process.env.ACCESS_TOKEN_KEY;
 const access_token_expires_time = process.env.ACCESS_TOKEN_EXPIRES_TIME;
@@ -84,7 +86,7 @@ class UserService {
     });
     await user.save();
     this.User = user;
-    return await formatUserRes(this.User);
+    return this.getUser();
   }
   async logout(indexToken) {
     this.User.tokens.splice(indexToken, 1);
@@ -115,6 +117,36 @@ class UserService {
     this.User.tokens[indexToken].access_token = access_token;
     await this.User.save();
     return access_token;
+  }
+  async addDevice(add_code) {
+    const queue = await AddQueueModel.findOne({ add_code: add_code });
+    if (!queue) return null;
+    if (dayjs().isAfter(queue.expires_in)) return 400;
+    await UserModel.findOneAndUpdate(
+      { _id: this.User._id },
+      {
+        $push: {
+          device_list: { device_id: queue.device_id },
+        },
+      }
+    );
+    const device = await DeviceModel.findById(queue.device_id);
+    if (device.user) return 409;
+    const new_device = await DeviceModel.findOneAndUpdate(
+      {
+        _id: queue.device_id,
+      },
+      { $set: { user: this.User._id } },
+      { new: true }
+    );
+    await new DeviceService(new_device).sendMessage({
+      status: 200,
+      message: "Has been added",
+      data: {
+        user: { name: this.User.first_name + " " + this.User.last_name },
+      },
+    });
+    return new_device;
   }
   /**
    * Verifies the access token and retrieves the corresponding user.
@@ -151,7 +183,15 @@ class UserService {
    *   }} - The user data.
    */
   async getUser() {
-    return await formatUserRes(this.User);
+    return {
+      id: user._id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+      birth: user.birth,
+    };
   }
 }
 export default UserService;
