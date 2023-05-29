@@ -1,10 +1,9 @@
-import formatDeviceRes from "../../services/formatDeviceRes.js";
+import UserService from "../../services/userService.js";
 
 const getDeviceList = async (req, res) => {
   const { user } = req;
-  await user.populate("device_list.device_id");
-  res.json({
-    data: { items: user.device_list.map((ele) => formatDeviceRes(ele)) },
+  res.status(200).json({
+    data: { items: await new UserService(user).getDeviceList() },
   });
 };
 

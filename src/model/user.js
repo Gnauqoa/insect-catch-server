@@ -4,8 +4,6 @@ import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
 import {} from "dotenv/config";
 import bcrypt from "bcrypt";
-import formatUserRes from "../services/formatUserRes.js";
-import formatDeviceRes from "../services/formatDeviceRes.js";
 
 const access_token_key = process.env.ACCESS_TOKEN_KEY;
 const access_token_expires_time = process.env.ACCESS_TOKEN_EXPIRES_TIME;
@@ -107,11 +105,5 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.createRes = async function () {
-  const User = this;
-  await User.populate("device_list.device_id");
-  User.device_list = User.device_list.map((ele) => formatDeviceRes(ele));
-  return formatUserRes(User);
-};
 const UserModel = model("User", userSchema);
 export default UserModel;

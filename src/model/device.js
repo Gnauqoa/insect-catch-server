@@ -1,7 +1,5 @@
 import { Schema, model } from "mongoose";
 import {} from "dotenv/config";
-import formatDeviceRes from "../services/formatDeviceRes.js";
-import formatDeviceControlRes from "../services/formatDeviceControlRes.js";
 import createTimeType from "./timeType.js";
 
 const imageSchema = new Schema(
@@ -130,13 +128,5 @@ const deviceSchema = new Schema(
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },
   }
 );
-deviceSchema.methods.createRes = async function () {
-  const device = this;
-  return formatDeviceRes(device);
-};
-deviceSchema.methods.createControlRes = async function () {
-  const device = this;
-  return formatDeviceControlRes(device);
-};
 const DeviceModel = model("Device", deviceSchema);
 export default DeviceModel;

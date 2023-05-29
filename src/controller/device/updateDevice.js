@@ -1,27 +1,12 @@
-import DeviceModel from "../../model/device.js";
+import DeviceService from "../../services/deviceService.js";
 
 const updateDevice = async (req, res) => {
   try {
-    const device_id = req.device_id;
+    const device = req.device;
     const { control_data } = req.body;
-    const device_data = await DeviceModel.findByIdAndUpdate(
-      device_id,
-      {
-        $set: {
-          brightness: control_data.brightness,
-          led_color: control_data.led_color,
-          time_end: control_data.time_end,
-          time_start: control_data.time_start,
-          time_send: control_data.time_send,
-          grid_status: control_data.grid_status,
-        },
-      },
-      { new: true }
-    );
-
     res.status(200).json({
       message: "Update control data success!",
-      data: await device_data.createRes(),
+      data: await new DeviceService(device).updateControlData(control_data),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

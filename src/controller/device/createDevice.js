@@ -1,18 +1,10 @@
-import {} from "dotenv/config";
-import DeviceModal from "../../model/device.js";
-
-const adminCode = process.env.adminCode;
+import DeviceService from "../../services/deviceService.js";
 
 const createDevice = async (req, res) => {
   try {
-    const admin_code = req.body.admin_code;
-    if (adminCode !== admin_code)
-      res.status(401).json({ error: "Unauthorized" });
-    const device = new DeviceModal({});
-    await device.save();
     res.status(201).json({
       message: "Create device success",
-      data: await device.createRes(),
+      data: await new DeviceService().createDevice(req.body.admin_code),
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
