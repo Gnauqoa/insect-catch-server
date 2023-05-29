@@ -3,9 +3,11 @@ import UserService from "../services/userService.js";
 const userAuth = async (req, res, next) => {
   try {
     const access_token = req.headers.authorization.split(" ")[1];
-    const verify = await new UserService().verifyToken(access_token);
+    const userService = new UserService();
+    const verify = await userService.verifyToken(access_token);
     if (verify) {
       req.user = verify.user;
+      req.userService = userService;
       req.access_token = verify.access_token;
       req.indexToken = verify.indexToken;
       next();

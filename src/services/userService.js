@@ -198,6 +198,7 @@ class UserService {
       _id: decodedToken.userId,
     });
     if (!user) return null;
+    this.User = user;
     const indexToken = user.tokens.findIndex(
       (ele) => ele.access_token === access_token
     );
@@ -229,16 +230,26 @@ class UserService {
    *     "birth": Date
    *   }} - The user data.
    */
-  async getUser() {
+  getUser() {
     return {
-      id: user._id,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      created_at: user.created_at,
-      updated_at: user.updated_at,
-      birth: user.birth,
+      id: this.User._id,
+      email: this.User.email,
+      first_name: this.User.first_name,
+      last_name: this.User.last_name,
+      created_at: this.User.created_at,
+      updated_at: this.User.updated_at,
+      birth: this.User.birth,
     };
+  }
+  async deleteDevice(device_id) {
+    const index = this.User.device_list.findIndex(
+      (ele) => ele.device_id.toString() === device_id
+    );
+    if (index == -1) return null;
+    this.User.device_list.splice(index, 1);
+    await this.User.save();
+    await DeviceModel.findOneAndUpdate({ _id: device_id }, { user: null });
+    return this.getUser();
   }
 }
 export default UserService;
