@@ -1,5 +1,3 @@
-import { isHour, isMinute } from "../services/validator.js";
-
 const createTimeType = (hour, min) => {
   return {
     hour: {
@@ -20,5 +18,10 @@ const createTimeType = (hour, min) => {
     },
   };
 };
-
+const isMinute = (value) => {
+  return value >= 0 && value <= 60;
+};
+const isHour = (value) => {
+  return value >= 0 && value <= 24;
+};
 export default createTimeType;
