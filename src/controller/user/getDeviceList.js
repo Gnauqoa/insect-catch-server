@@ -1,9 +1,7 @@
-import UserService from "../../services/userService.js";
-
 const getDeviceList = async (req, res) => {
-  const { user } = req;
+  const { userService } = req;
   res.status(200).json({
-    data: { items: await new UserService(user).getDeviceList() },
+    data: { items: await userService.getDeviceList() },
   });
 };
 

@@ -1,10 +1,8 @@
-import UserService from "../../services/userService.js";
-
 const addDevice = async (req, res) => {
   try {
     const add_code = req.body.add_code;
-    const user = req.user;
-    const new_device = await new UserService(user).addDevice(add_code);
+    const userService = req.userService;
+    const new_device = await userService.addDevice(add_code);
     if (new_device === 400)
       return res.status(400).json({ message: "Device code is not valid" });
     if (new_device === 409)

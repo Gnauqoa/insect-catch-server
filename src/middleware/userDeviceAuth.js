@@ -1,9 +1,10 @@
 import UserService from "../services/userService.js";
 
-const addedAuth = async (req, res, next) => {
+const userDeviceAuth = async (req, res, next) => {
   try {
     const { device_id } = req.params;
-    const device = await new UserService(req.user).verifyDevice(device_id);
+    const userService = req.userService;
+    const device = await userService.verifyDevice(device_id);
     if (device === 404)
       return res
         .status(404)
@@ -16,4 +17,4 @@ const addedAuth = async (req, res, next) => {
   }
 };
 
-export default addedAuth;
+export default userDeviceAuth;
