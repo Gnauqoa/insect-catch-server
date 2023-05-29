@@ -15,7 +15,6 @@ class DeviceService {
   }
   async getDevice() {
     const images_length = this.Device.images_list.length;
-    // console.log(this.Device);
     return {
       id: this.Device._id,
       battery: this.Device.battery,
@@ -43,6 +42,16 @@ class DeviceService {
           }
         : null,
     };
+  }
+  async updateControlData(control_data) {
+    this.Device.brightness = control_data.brightness;
+    this.Device.led_color = control_data.led_color;
+    this.Device.time_end = control_data.time_end;
+    this.Device.time_start = control_data.time_start;
+    this.Device.time_send = control_data.time_send;
+    this.Device.grid_status = control_data.grid_status;
+    await this.Device.save();
+    return await this.getDevice();
   }
 }
 export default DeviceService;

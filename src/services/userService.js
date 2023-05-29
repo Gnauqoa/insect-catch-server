@@ -88,14 +88,32 @@ class UserService {
     this.User = user;
     return this.getUser();
   }
+  /**
+   * Logs out the user by removing the token at the specified index from the tokens array.
+   * @param {number} indexToken - The index of the token to be removed.
+   * @returns {Promise<boolean>} - A promise that resolves to true once the user is logged out.
+   */
   async logout(indexToken) {
     this.User.tokens.splice(indexToken, 1);
     await this.User.save();
+    return true;
   }
+
+  /**
+   * Logs out the user from all devices by clearing the tokens array.
+   * @returns {Promise<boolean>} - A promise that resolves to true once the user is logged out from all devices.
+   */
   async logoutAll() {
     this.User.tokens = [];
     await this.User.save();
+    return true;
   }
+
+  /**
+   * Requests a new access token using the provided refresh token.
+   * @param {string} refresh_token - The refresh token to be verified and used for requesting a new access token.
+   * @returns {string | null} - New access token if successful, or null if the refresh token is invalid or the user is not found.
+   */
   async requestAccessToken(refresh_token) {
     const decodedToken = jwt.verify(refresh_token, refresh_token_key);
     const user = await UserModel.findOne({
@@ -118,9 +136,14 @@ class UserService {
     await this.User.save();
     return access_token;
   }
+  /**
+   * Adds a device to the current user's device list using the provided add code.
+   * @param {string} add_code - The add code associated with the device to be added.
+   * @returns {Promise<DeviceModel | number>} - A promise that resolves to the added DeviceModel object if successful, 400 if the add code has expired, or 409 if the device is already associated with another user.
+   */
   async addDevice(add_code) {
     const queue = await AddQueueModel.findOne({ add_code: add_code });
-    if (!queue) return null;
+    if (!queue) return 400;
     if (dayjs().isAfter(queue.expires_in)) return 400;
     await UserModel.findOneAndUpdate(
       { _id: this.User._id },
@@ -148,6 +171,10 @@ class UserService {
     });
     return new_device;
   }
+  /**
+   * Retrieves the list of devices for the current user.
+   * @returns {Array<DeviceModel>} - An array of DeviceModel objects representing the user's devices.
+   */
   async getDeviceList() {
     await this.User.populate("device_list.device_id");
     return await Promise.all(
@@ -177,6 +204,11 @@ class UserService {
     if (indexToken === -1) return null;
     return { user, access_token, indexToken };
   }
+  /**
+    Verifies the existence of a device belonging to the current user.
+    @param {string} device_id - The ID of the device to be verified.
+    @returns {DeviceModel | number} - The device object if found, or 404 if the device is not found or does not belong to the current user.
+  */
   async verifyDevice(device_id) {
     const device = await DeviceModel.findOne({
       _id: device_id,
