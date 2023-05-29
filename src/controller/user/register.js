@@ -18,21 +18,6 @@ const register = async (req, res) => {
       return;
     }
     res.status(409).json({ message: "User already exists" });
-    // const existingUser = await UserModel.findOne({ email });
-    // if (existingUser)
-    //   return res.status(409).json({ message: "User already exists" });
-    // const user = new UserModel({
-    //   email,
-    //   first_name,
-    //   last_name,
-    //   birth: dayjs(birth).toDate(),
-    //   password: password || "12345678",
-    // });
-    // await user.save();
-    // res.status(201).json({
-    //   message: "Register success",
-    //   data: await user.createRes(),
-    // });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -35,7 +35,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      // unique: true,
+      unique: true,
       lowercase: true,
       validate: {
         validator: (value) => validator.isEmail(value),

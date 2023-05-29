@@ -17,11 +17,12 @@ class UserService {
   constructor(User) {
     this.User = User;
   }
+
   /**
    * Create access token and refresh token then save to database.
    * @returns {{ access_token: string, refresh_token: string }} - The generated access token and refresh token.
    */
-  async createToken() {
+  async createRefreshToken() {
     const access_token = jwt.sign({ userId: this.User._id }, access_token_key, {
       expiresIn: access_token_expires_time,
     });
@@ -50,8 +51,9 @@ class UserService {
     const isPasswordMatch = await bcrypt.compare(password, user.password);
     if (!isPasswordMatch) return null;
     this.User = user;
-    return await this.createToken();
+    return await this.createRefreshToken();
   }
+
   /**
    * Register a new user.
    * @param {string} first_name - The user's first name.
@@ -83,6 +85,36 @@ class UserService {
     this.User = user;
     return await formatUserRes(this.User);
   }
+  async logout(indexToken) {
+    this.User.tokens.splice(indexToken, 1);
+    await this.User.save();
+  }
+  async logoutAll() {
+    this.User.tokens = [];
+    await this.User.save();
+  }
+  /**
+   * Verifies the access token and retrieves the corresponding user.
+   * @param {string} access_token - The access token to be verified.
+   * @returns {{
+   *     user: UserModel,
+   *     access_token: string,
+   *     indexToken: number
+   * } | null} - An object containing the user, the verified access token, and the index of the token in the user's tokens array. Returns null if the token is invalid or the user is not found.
+   */
+  async verifyToken(access_token) {
+    const decodedToken = jwt.verify(access_token, access_token_key);
+    const user = await UserModel.findOne({
+      _id: decodedToken.userId,
+    });
+    if (!user) return null;
+    const indexToken = user.tokens.findIndex(
+      (ele) => ele.access_token === access_token
+    );
+    if (indexToken === -1) return null;
+    return { user, access_token, indexToken };
+  }
+
   /**
    * Return user data excluding the user's device list.
    * @returns {{
