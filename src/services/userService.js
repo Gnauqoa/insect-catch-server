@@ -143,7 +143,7 @@ class UserService {
    */
   async addDevice(add_code) {
     const queue = await AddQueueModel.findOne({ add_code: add_code });
-    if (!queue) return 400;
+    if (!queue) return 401;
     if (dayjs().isAfter(queue.expires_in)) return 400;
     await UserModel.findOneAndUpdate(
       { _id: this.User._id },
