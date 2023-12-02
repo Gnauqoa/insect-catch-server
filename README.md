@@ -11,6 +11,7 @@ Ans:
 $$cos(good, battle)=\frac{114+62.7+89.13}{\sqrt{114^2+80^2+62^2+89^2}\sqrt{1^2+7^2+13^2}}=0.24$$
 $$cos(fool, battle)=\frac{36+7+4.13}{\sqrt{36^2+58^2+1+4^2}\sqrt{1^2+7^2+13^2}}=0.09$$
 Therefore, "good" and "battle" are closer similarity
+\\
 **2. From the formula of PMI, explain:**
 *a. Why very rare words tend to have very high PMI values?*
 Ans: (đại loại là $w$ thấp, dẫn dễn $P(w)P(c)$ cũng bé theo, mà mẫu bé thì giá trị của phân số rất lớn, mà log mà 1 hàm tăng dẫn đến giá trị PMI tăng)
